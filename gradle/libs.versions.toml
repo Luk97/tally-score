@@ -1,0 +1,38 @@
+[versions]
+compose-bom = "2024.09.00"
+activity-compose = "1.9.2"
+agp = "8.6.0"
+kotlin = "1.9.0"
+core-ktx = "1.13.1"
+lifecycle-runtime-ktx = "2.8.5"
+dagger-hilt = "2.49"
+hiltNavigationCompose = "1.2.0"
+ksp = "1.9.0-1.0.12"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-material3 = { module = "androidx.compose.material3:material3" }
+dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
+dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt"}
+dagger-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+
+[bundles]
+compose = [
+    "compose-ui",
+    "compose-ui-graphics",
+    "compose-ui-tooling-preview",
+    "compose-material3"
+]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+daggerhilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger-hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+
