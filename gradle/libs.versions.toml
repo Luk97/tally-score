@@ -8,6 +8,7 @@ lifecycle-runtime-ktx = "2.8.5"
 dagger-hilt = "2.49"
 hiltNavigationCompose = "1.2.0"
 ksp = "1.9.0-1.0.12"
+room-database = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -16,17 +17,19 @@ androidx-activity-compose = { group = "androidx.activity", name = "activity-comp
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt"}
 dagger-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+room-database = { module = "androidx.room:room-runtime", version.ref = "room-database" }
+room-database-compiler = { module = "androidx.room:room-compiler", version.ref = "room-database" }
 
 [bundles]
 compose = [
     "compose-ui",
     "compose-ui-graphics",
-    "compose-ui-tooling-preview",
+    "compose-ui-tooling",
     "compose-material3"
 ]
 
