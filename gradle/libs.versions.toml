@@ -19,18 +19,29 @@ compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
+compose-material-extended-icons = { module = "androidx.compose.material:material-icons-extended"}
 dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt"}
 dagger-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 room-database = { module = "androidx.room:room-runtime", version.ref = "room-database" }
 room-database-compiler = { module = "androidx.room:room-compiler", version.ref = "room-database" }
+room-database-ktx = { module = "androidx.room:room-ktx", version.ref = "room-database"}
 
 [bundles]
 compose = [
     "compose-ui",
     "compose-ui-graphics",
     "compose-ui-tooling",
-    "compose-material3"
+    "compose-material3",
+    "compose-material-extended-icons"
+]
+daggerhilt = [
+    "dagger-hilt",
+    "dagger-hilt-navigation-compose"
+]
+room = [
+    "room-database",
+    "room-database-ktx"
 ]
 
 [plugins]

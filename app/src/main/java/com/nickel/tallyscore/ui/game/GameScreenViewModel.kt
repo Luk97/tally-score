@@ -1,8 +1,8 @@
-package com.nickel.tallyscore.ui.screens.game
+package com.nickel.tallyscore.ui.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nickel.tallyscore.data.Player
+import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.datastore.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,8 +28,29 @@ class GameScreenViewModel @Inject constructor(
         }
     }
 
+    fun onInteraction(interaction: GameInteraction) {
+        when (interaction) {
+            GameInteraction.InfoClicked -> onInfoClicked()
+            GameInteraction.SettingsClicked -> onSettingsClicked()
+            GameInteraction.DialogDismissed -> onDialogDismissed()
+            GameInteraction.AddPlayerClicked -> onAddPlayerClicked()
+        }
+    }
+
+    private fun onInfoClicked() {
+
+    }
+
+    private fun onSettingsClicked() {
+
+    }
+
+    private fun onDialogDismissed() {
+        _state.update { it.copy(dialogState = DialogState.NONE) }
+    }
+
+    private fun onAddPlayerClicked() {
+        _state.update { it.copy(dialogState = DialogState.EDITING) }
+    }
 }
 
-data class GameState(
-    val players: List<Player> = emptyList()
-)

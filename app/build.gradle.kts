@@ -52,15 +52,21 @@ android {
 }
 
 dependencies {
+
+    // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+
+    // compose
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
-    implementation(libs.dagger.hilt)
-    implementation(libs.dagger.hilt.navigation.compose)
+
+    // dagger hilt
+    implementation(libs.bundles.daggerhilt)
     ksp(libs.dagger.hilt.compiler)
-    implementation(libs.room.database)
-    annotationProcessor(libs.room.database.compiler)
-    ksp(libs.room.database)
+
+    // room
+    implementation(libs.bundles.room)
+    ksp(libs.room.database.compiler)
 }
