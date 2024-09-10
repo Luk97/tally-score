@@ -1,8 +1,13 @@
 package com.nickel.tallyscore.ui.game
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -10,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.ui.components.AddPlayerButton
-import com.nickel.tallyscore.ui.components.TopBar
+import com.nickel.tallyscore.ui.components.TallyScoreTopBar
 import com.nickel.tallyscore.ui.editing.EditPlayerDialog
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
@@ -26,21 +31,28 @@ private fun GameScreen(
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
     Scaffold(
-        topBar = { TopBar(onInteraction = onInteraction) },
+        topBar = { TallyScoreTopBar(onInteraction = onInteraction) },
         floatingActionButton = {
             AddPlayerButton(
                 onAddPlayerClicked = { onInteraction(GameInteraction.AddPlayerClicked) }
             )
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            ScreenContent(
-                state = state,
-                onInteraction = onInteraction
+        ScreenContent(
+            state = state,
+            onInteraction = onInteraction,
+            modifier = Modifier.padding(innerPadding)
+        )
+
+        when (state.dialogState) {
+            GameState.DialogState.EDITING -> EditPlayerDialog(
+                onDismiss = { onInteraction(GameInteraction.DialogDismissed) }
             )
+            else -> {}
         }
     }
 }
+
 
 @Composable
 private fun ScreenContent(
@@ -48,12 +60,15 @@ private fun ScreenContent(
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
-    Box(modifier = modifier) {
-        when (state.dialogState) {
-            GameState.DialogState.EDITING -> EditPlayerDialog(
-                onDismiss = { onInteraction(GameInteraction.DialogDismissed) }
-            )
-            else -> {}
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        state.players.forEach {
+            Row {
+                Text("${it.name}, ${it.score}")
+            }
         }
     }
 }

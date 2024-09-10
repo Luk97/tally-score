@@ -16,6 +16,13 @@ interface PlayerDao {
     @Delete
     suspend fun deletePlayer(player: Player)
 
+    @Query("DELETE FROM player")
+    suspend fun deleteAllPlayers()
+
+    @Query("UPDATE player SET score = 0")
+    suspend fun resetPlayerScores()
+
+
     @Query("SELECT * FROM player")
     fun getPlayers(): Flow<List<Player>>
 }

@@ -7,6 +7,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
@@ -18,7 +19,7 @@ fun TallyScoreTextField(
     onValueChange: (String) -> Unit = {},
     label: String? = null,
     placeHolder: String? = null,
-    keyboardType: KeyboardType = KeyboardType.Unspecified
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     TextField(
         modifier = modifier,
@@ -26,7 +27,10 @@ fun TallyScoreTextField(
         value = value,
         label = label?.let {{ Text(it) }},
         placeholder = placeHolder?.let {{ Text(it) }},
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+            keyboardType = keyboardType
+        ),
         colors = TextFieldDefaults.colors(
             focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,

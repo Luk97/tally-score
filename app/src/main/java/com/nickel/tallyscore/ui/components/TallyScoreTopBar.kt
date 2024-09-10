@@ -4,8 +4,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,7 +23,7 @@ import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(
+fun TallyScoreTopBar(
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
@@ -38,9 +39,10 @@ fun TopBar(
         actions = {
             TopBarActions(
                 onInfoClicked = { onInteraction(GameInteraction.InfoClicked) },
-                onSettingsClicked = { onInteraction(GameInteraction.SettingsClicked) })
+                onResetClicked = { onInteraction(GameInteraction.ResetClicked) },
+                onDeleteClicked = { onInteraction(GameInteraction.DeleteClicked) }
+            )
         },
-        //windowInsets = WindowInsets.statusBars,
         modifier = modifier
     )
 }
@@ -48,7 +50,8 @@ fun TopBar(
 @Composable
 private fun TopBarActions(
     onInfoClicked: () -> Unit = {},
-    onSettingsClicked: () -> Unit = {}
+    onResetClicked: () -> Unit = {},
+    onDeleteClicked: () -> Unit = {}
 ) {
     IconButton(
         onClick = onInfoClicked
@@ -61,10 +64,20 @@ private fun TopBarActions(
     }
     Spacer(Modifier.width(8.dp))
     IconButton(
-            onClick = onSettingsClicked
+            onClick = onResetClicked
             ) {
         Icon(
-            imageVector = Icons.Default.Settings,
+            imageVector = Icons.Default.Replay,
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+    Spacer(Modifier.width(8.dp))
+    IconButton(
+        onClick = onDeleteClicked
+    ) {
+        Icon(
+            imageVector = Icons.Default.DeleteForever,
             contentDescription = null,
             modifier = Modifier.fillMaxSize()
         )
@@ -73,8 +86,8 @@ private fun TopBarActions(
 
 @Preview
 @Composable
-private fun TopBarPreview() {
+private fun TallyScoreTopBarPreview() {
     TallyScoreTheme {
-        TopBar()
+        TallyScoreTopBar()
     }
 }

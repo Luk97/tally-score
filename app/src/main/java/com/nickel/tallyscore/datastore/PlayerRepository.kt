@@ -9,4 +9,8 @@ class PlayerRepository(private val dao: PlayerDao) {
     suspend fun upsertPlayer(player: Player): Long = dao.upsertPlayer(player)
 
     suspend fun deletePlayer(player: Player) = dao.deletePlayer(player)
+
+    suspend fun deleteAllPlayers() = dao.deleteAllPlayers()
+
+    suspend fun resetPlayerScores() = dao.resetPlayerScores()
 }

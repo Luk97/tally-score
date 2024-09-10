@@ -31,7 +31,8 @@ class GameScreenViewModel @Inject constructor(
     fun onInteraction(interaction: GameInteraction) {
         when (interaction) {
             GameInteraction.InfoClicked -> onInfoClicked()
-            GameInteraction.SettingsClicked -> onSettingsClicked()
+            GameInteraction.ResetClicked -> onResetClicked()
+            GameInteraction.DeleteClicked -> onDeleteClicked()
             GameInteraction.DialogDismissed -> onDialogDismissed()
             GameInteraction.AddPlayerClicked -> onAddPlayerClicked()
         }
@@ -41,8 +42,16 @@ class GameScreenViewModel @Inject constructor(
 
     }
 
-    private fun onSettingsClicked() {
+    private fun onResetClicked() {
+        viewModelScope.launch {
+            repository.resetPlayerScores()
+        }
+    }
 
+    private fun onDeleteClicked() {
+        viewModelScope.launch {
+            repository.deleteAllPlayers()
+        }
     }
 
     private fun onDialogDismissed() {
