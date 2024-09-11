@@ -12,5 +12,5 @@ class PlayerRepository(private val dao: PlayerDao) {
 
     suspend fun deleteAllPlayers() = dao.deleteAllPlayers()
 
-    suspend fun resetPlayerScores() = dao.resetPlayerScores()
+    suspend fun resetAllPlayerScores() = dao.resetAllPlayerScores()
 }

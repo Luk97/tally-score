@@ -48,7 +48,7 @@ class GameScreenViewModel @Inject constructor(
 
     private fun onResetClicked() {
         viewModelScope.launch {
-            repository.resetPlayerScores()
+            repository.resetAllPlayerScores()
         }
     }
 
@@ -110,7 +110,7 @@ class GameScreenViewModel @Inject constructor(
             when (val dialogState = _state.value.dialogState) {
                 is DialogState.AddingPlayer -> {
                     dialogState.score.toInt().let {
-                        val player = Player(name = dialogState.name, score = it)
+                        val player = Player(name = dialogState.name, scores = listOf(it))
                         repository.upsertPlayer(player)
                     }
                 }
