@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.ui.components.AddPlayerButton
 import com.nickel.tallyscore.ui.components.TallyScoreTopBar
-import com.nickel.tallyscore.ui.editing.EditPlayerDialog
+import com.nickel.tallyscore.ui.dialogs.AddPlayerDialog
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
@@ -44,15 +44,12 @@ private fun GameScreen(
             modifier = Modifier.padding(innerPadding)
         )
 
-        when (state.dialogState) {
-            GameState.DialogState.EDITING -> EditPlayerDialog(
-                onDismiss = { onInteraction(GameInteraction.DialogDismissed) }
-            )
-            else -> {}
-        }
+        GameDialogs(
+            dialogState = state.dialogState,
+            onInteraction = onInteraction
+        )
     }
 }
-
 
 @Composable
 private fun ScreenContent(
@@ -70,6 +67,20 @@ private fun ScreenContent(
                 Text("${it.name}, ${it.score}")
             }
         }
+    }
+}
+
+@Composable
+private fun GameDialogs(
+    dialogState: GameState.DialogState,
+    onInteraction: (GameInteraction) -> Unit = {}
+) {
+    when (dialogState) {
+        is GameState.DialogState.AddingPlayer -> AddPlayerDialog(
+            state = dialogState,
+            onInteraction = onInteraction
+        )
+        else -> {}
     }
 }
 
