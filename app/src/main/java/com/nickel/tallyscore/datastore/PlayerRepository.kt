@@ -14,10 +14,19 @@ class PlayerRepository(private val dao: PlayerDao) {
 
     suspend fun resetAllPlayerScores() = dao.resetAllPlayerScores()
 
-    suspend fun addScoreToPlayer(playerId: Long, score: Int) {
+    suspend fun addPlayerScore(playerId: Long, score: Int) {
         val player = dao.getPlayerById(playerId)
         if (player != null) {
             dao.upsertPlayer(player.copy(scores = player.scores + score))
+        }
+    }
+
+    suspend fun updatePlayerScore(playerId: Long, score: Int, index: Int) {
+        val player = dao.getPlayerById(playerId)
+        if (player != null && index in player.scores.indices) {
+            val updatedScores = player.scores.toMutableList()
+            updatedScores[index] = score
+            dao.upsertPlayer(player.copy(scores = updatedScores))
         }
     }
 }

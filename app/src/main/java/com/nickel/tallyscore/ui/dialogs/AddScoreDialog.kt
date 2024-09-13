@@ -31,11 +31,6 @@ fun AddScoreDialog(
     state: DialogState.AddingScore,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
-    val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) {
-        focusRequester.requestFocus()
-    }
-
     Dialog(onDismissRequest = { onInteraction(GameInteraction.DialogDismissed) }) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -58,9 +53,8 @@ fun AddScoreDialog(
                 placeHolder = "Your score...",
                 keyboardType = KeyboardType.Number,
                 maxChars = 6,
-                modifier = Modifier
-                    .padding(16.dp)
-                    .focusRequester(focusRequester)
+                requestFocus = true,
+                modifier = Modifier.padding(16.dp)
             )
             Button(
                 onClick = { onInteraction(GameInteraction.DialogConfirmed) },

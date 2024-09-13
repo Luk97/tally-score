@@ -7,9 +7,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
@@ -22,16 +31,31 @@ fun TallyScoreTextField(
     label: String? = null,
     placeHolder: String? = null,
     maxChars: Int? = null,
-    keyboardType: KeyboardType = KeyboardType.Text
+    keyboardType: KeyboardType = KeyboardType.Text,
+    requestFocus: Boolean = false
 ) {
+    var textFieldValue by remember { mutableStateOf(TextFieldValue(text = text)) }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        textFieldValue = textFieldValue.copy(
+            text = text,
+            selection = TextRange(text.length)
+        )
+        if (requestFocus) {
+            focusRequester.requestFocus()
+        }
+    }
+
     TextField(
-        modifier = modifier,
+        modifier = modifier.focusRequester(focusRequester),
         onValueChange = {
-            if (maxChars == null || it.length <= maxChars) {
-                onValueChange(it)
+            if (maxChars == null || it.text.length <= maxChars) {
+                textFieldValue = it
+                onValueChange(it.text)
             }
         },
-        value = text,
+        value = textFieldValue,
         label = label?.let {{ Text(it) }},
         placeholder = placeHolder?.let {{ Text(it) }},
         keyboardOptions = KeyboardOptions(

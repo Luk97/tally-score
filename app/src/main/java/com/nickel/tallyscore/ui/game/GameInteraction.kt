@@ -7,6 +7,11 @@ sealed class GameInteraction {
 
     data object AddPlayerClicked: GameInteraction()
     data class AddScoreClicked(val playerId: Long): GameInteraction()
+    data class EditScoreClicked(
+        val playerId: Long,
+        val score: String,
+        val index: Int
+    ): GameInteraction()
     data object DialogDismissed: GameInteraction()
     data object DialogConfirmed: GameInteraction()
 

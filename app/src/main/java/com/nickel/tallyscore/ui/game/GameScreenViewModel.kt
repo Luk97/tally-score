@@ -37,6 +37,11 @@ class GameScreenViewModel @Inject constructor(
             GameInteraction.DialogDismissed -> onDialogDismissed()
             GameInteraction.AddPlayerClicked -> onAddPlayerClicked()
             is GameInteraction.AddScoreClicked -> onAddScoreClicked(interaction.playerId)
+            is GameInteraction.EditScoreClicked -> onEditScoreClicked(
+                interaction.playerId,
+                interaction.score,
+                interaction.index
+            )
             is GameInteraction.NameChanged -> onNameChanged(interaction.name)
             is GameInteraction.ScoreChanged -> onScoreChanged(interaction.score)
             GameInteraction.DialogConfirmed -> onDialogConfirmed()
@@ -69,6 +74,14 @@ class GameScreenViewModel @Inject constructor(
 
     private fun onAddScoreClicked(playerId: Long) {
         _state.update { it.copy(dialogState = DialogState.AddingScore(playerId = playerId)) }
+    }
+
+    private fun onEditScoreClicked(playerId: Long, score: String, index: Int) {
+        _state.update { it.copy(dialogState = DialogState.EditingScore(
+            playerId = playerId,
+            score = score,
+            index = index
+        )) }
     }
 
     private fun onNameChanged(name: String) {
@@ -117,6 +130,20 @@ class GameScreenViewModel @Inject constructor(
                     ))
                 }
             }
+            is DialogState.EditingScore -> {
+                val score = value
+                    .filter { it.isDigit() }
+                    .toIntOrNull()
+                    ?.toString()
+                    ?: value
+                _state.update {
+                    it.copy(dialogState = DialogState.EditingScore(
+                        playerId = dialogState.playerId,
+                        score = score,
+                        index = dialogState.index
+                    ))
+                }
+            }
             else -> {}
         }
     }
@@ -131,8 +158,13 @@ class GameScreenViewModel @Inject constructor(
 
                 }
                 is DialogState.AddingScore -> {
-                    dialogState.score.toInt().let {
-                        repository.addScoreToPlayer(dialogState.playerId, it)
+                    dialogState.score.toIntOrNull()?.let {
+                        repository.addPlayerScore(dialogState.playerId, it)
+                    }
+                }
+                is DialogState.EditingScore -> {
+                    dialogState.score.toIntOrNull()?.let {
+                        repository.updatePlayerScore(dialogState.playerId, it, dialogState.index)
                     }
                 }
                 else -> {}

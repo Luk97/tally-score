@@ -13,6 +13,7 @@ import com.nickel.tallyscore.ui.components.AddPlayerButton
 import com.nickel.tallyscore.ui.components.TallyScoreTopBar
 import com.nickel.tallyscore.ui.dialogs.AddPlayerDialog
 import com.nickel.tallyscore.ui.dialogs.AddScoreDialog
+import com.nickel.tallyscore.ui.dialogs.EditScoreDialog
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 
@@ -61,6 +62,10 @@ private fun GameDialogs(
             onInteraction = onInteraction
         )
         is DialogState.AddingScore -> AddScoreDialog(
+            state = dialogState,
+            onInteraction = onInteraction
+        )
+        is DialogState.EditingScore -> EditScoreDialog(
             state = dialogState,
             onInteraction = onInteraction
         )

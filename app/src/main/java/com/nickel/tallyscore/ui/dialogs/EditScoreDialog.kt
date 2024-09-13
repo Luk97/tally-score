@@ -27,8 +27,8 @@ import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
-fun AddPlayerDialog(
-    state: DialogState.AddingPlayer,
+fun EditScoreDialog(
+    state: DialogState.EditingScore,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
     Dialog(onDismissRequest = { onInteraction(GameInteraction.DialogDismissed) }) {
@@ -42,18 +42,9 @@ fun AddPlayerDialog(
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             Text(
-                text = "Add Player",
+                text = "Edit Score",
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
-            )
-            TallyScoreTextField(
-                text = state.name,
-                onValueChange = { onInteraction(GameInteraction.NameChanged(it)) },
-                label = "Name",
-                placeHolder = "Your name...",
-                maxChars = 20,
-                requestFocus = true,
-                modifier = Modifier.padding(horizontal = 16.dp)
             )
             TallyScoreTextField(
                 text = state.score,
@@ -62,6 +53,7 @@ fun AddPlayerDialog(
                 placeHolder = "Your score...",
                 keyboardType = KeyboardType.Number,
                 maxChars = 6,
+                requestFocus = true,
                 modifier = Modifier.padding(16.dp)
             )
             Button(
@@ -69,7 +61,7 @@ fun AddPlayerDialog(
                 enabled = state.validInput,
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                Text("Add Player")
+                Text("Edit Score")
             }
         }
     }
@@ -77,8 +69,8 @@ fun AddPlayerDialog(
 
 @Preview
 @Composable
-private fun AddPlayerDialogPreview() {
+private fun EditScoreDialogPreview() {
     TallyScoreTheme {
-        AddPlayerDialog(state = DialogState.AddingPlayer(name = "Lukas"))
+        EditScoreDialog(state = DialogState.EditingScore(playerId = 1L, score = "42", index = 1))
     }
 }

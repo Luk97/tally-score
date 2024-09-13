@@ -12,6 +12,12 @@ data class GameState(
     val turnCount: Int
         get() = players.maxOfOrNull{ it.turns } ?: 0
 
+    val showTurns: Boolean
+        get() = turnCount > 0
+
+    val showTotals: Boolean
+        get() = players.isNotEmpty()
+
 
     sealed class DialogState {
 
@@ -26,8 +32,17 @@ data class GameState(
         }
 
         data class AddingScore(
-            val score: String = "",
-            val playerId: Long
+            val playerId: Long,
+            val score: String = ""
+        ): DialogState() {
+            val validInput: Boolean
+                get() = score.isNotEmpty()
+        }
+
+        data class EditingScore(
+            val playerId: Long,
+            val score: String,
+            val index: Int
         ): DialogState() {
             val validInput: Boolean
                 get() = score.isNotEmpty()

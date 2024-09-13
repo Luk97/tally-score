@@ -1,11 +1,22 @@
 package com.nickel.tallyscore.ui.game
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,8 +32,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
@@ -43,32 +59,59 @@ fun GameTable(
     val turnColumnWidth = remember(playerColumnWidth) {
         playerColumnWidth / 1.5
     }
+    val itemHeight = remember(playerColumnWidth) {
+        playerColumnWidth / 2
+    }
 
-    LazyRow(
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Top,
+    Column(
         modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        item {
-            TurnColumn(
-                turnCount = state.turnCount,
-                modifier = Modifier.width(turnColumnWidth.dp)
+        LazyRow(
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.Top
+        ) {
+            item {
+                if (state.showTurns) {
+                    TurnColumn(
+                        turnCount = state.turnCount,
+                        itemHeight = itemHeight.dp,
+                        modifier = Modifier.width(turnColumnWidth.dp)
+                    )
+                } else {
+                    Spacer(Modifier.width(turnColumnWidth.dp))
+                }
+            }
+
+            items(state.players) { player ->
+                PlayerColumn(
+                    player = player,
+                    itemHeight = itemHeight.dp,
+                    modifier = Modifier.width(playerColumnWidth.dp),
+                    onInteraction = onInteraction
+                )
+            }
+        }
+        if (state.showTotals) {
+            TotalScoreRow(
+                players = state.players,
+                titleWidth = turnColumnWidth.dp,
+                itemWidth = playerColumnWidth.dp,
+                modifier = Modifier.height(itemHeight.dp)
             )
         }
-        items(state.players) { player ->
-            PlayerColumn(
-                player = player,
-                modifier = Modifier.width(playerColumnWidth.dp),
-                onInteraction = onInteraction
-            )
-        }
+
     }
+
 }
 
 @Composable
-private fun TurnColumn(turnCount: Int, modifier: Modifier = Modifier) {
+private fun TurnColumn(
+    turnCount: Int,
+    itemHeight: Dp,
+    modifier: Modifier = Modifier
+) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -76,12 +119,18 @@ private fun TurnColumn(turnCount: Int, modifier: Modifier = Modifier) {
     ) {
         Text(
             text = "Turn",
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier
+                .height(itemHeight)
+                .wrapContentSize(Alignment.Center)
         )
         (1..turnCount).forEach {
             Text(
                 text = "$it",
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier
+                    .height(itemHeight)
+                    .wrapContentSize(Alignment.Center)
             )
         }
     }
@@ -90,6 +139,7 @@ private fun TurnColumn(turnCount: Int, modifier: Modifier = Modifier) {
 @Composable
 private fun PlayerColumn(
     player: Player,
+    itemHeight: Dp,
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
@@ -98,14 +148,45 @@ private fun PlayerColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(text = player.name, color = MaterialTheme.colorScheme.onBackground)
-        player.scores.forEach { score ->
-            Text(text = score.toString(), color = MaterialTheme.colorScheme.onBackground)
+
+        Text(
+            text = player.name,
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier
+                .height(itemHeight)
+                .wrapContentSize(Alignment.Center)
+        )
+        player.scores.forEachIndexed { index, score ->
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onInteraction(
+                            GameInteraction.EditScoreClicked(
+                                playerId = player.id,
+                                score = "$score",
+                                index = index
+                            )
+                        )
+                    }
+            ) {
+                Text(
+                    text = score.toString(),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .height(itemHeight)
+                        .wrapContentSize(Alignment.Center)
+                )
+            }
         }
 
         AddScoreButton(
             playerId = player.id,
-            onClick = { onInteraction(GameInteraction.AddScoreClicked(it)) }
+            onClick = { onInteraction(GameInteraction.AddScoreClicked(it)) },
+            modifier = Modifier
+                .height(itemHeight)
+                .wrapContentSize(Alignment.Center)
         )
 
     }
@@ -129,6 +210,37 @@ private fun AddScoreButton(
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onPrimary
         )
+    }
+}
+
+@Composable
+private fun TotalScoreRow(
+    players: List<Player>,
+    titleWidth: Dp,
+    itemWidth: Dp,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = modifier
+    ) {
+        Text(
+            text = "Total",
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier
+                .width(titleWidth)
+                .wrapContentWidth(Alignment.CenterHorizontally)
+        )
+        players.forEach {
+            Text(
+                text = "${it.totalScore}",
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier
+                    .width(itemWidth)
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
+        }
     }
 }
 
