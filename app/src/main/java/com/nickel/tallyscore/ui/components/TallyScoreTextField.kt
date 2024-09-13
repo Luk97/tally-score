@@ -1,5 +1,6 @@
 package com.nickel.tallyscore.ui.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -9,22 +10,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
 fun TallyScoreTextField(
-    value: String,
+    text: String,
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit = {},
     label: String? = null,
     placeHolder: String? = null,
+    maxChars: Int? = null,
     keyboardType: KeyboardType = KeyboardType.Text
 ) {
     TextField(
         modifier = modifier,
-        onValueChange = onValueChange,
-        value = value,
+        onValueChange = {
+            if (maxChars == null || it.length <= maxChars) {
+                onValueChange(it)
+            }
+        },
+        value = text,
         label = label?.let {{ Text(it) }},
         placeholder = placeHolder?.let {{ Text(it) }},
         keyboardOptions = KeyboardOptions(
@@ -40,7 +47,14 @@ fun TallyScoreTextField(
             unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurfaceVariant,
             focusedLabelColor = MaterialTheme.colorScheme.primary,
             unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        ),
+        supportingText = maxChars?.let {{
+            Text(
+                text = "${text.length} / $maxChars",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.End,
+            )
+        }}
     )
 }
 
@@ -49,9 +63,10 @@ fun TallyScoreTextField(
 private fun TallyScoreTextFieldPreview() {
     TallyScoreTheme {
         TallyScoreTextField(
-            value = "Lukas",
+            text = "Lukas",
             label = "Name",
-            placeHolder = "Your name..."
+            placeHolder = "Your name...",
+            maxChars = 6
         )
     }
 }

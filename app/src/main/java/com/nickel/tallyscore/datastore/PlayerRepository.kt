@@ -13,4 +13,11 @@ class PlayerRepository(private val dao: PlayerDao) {
     suspend fun deleteAllPlayers() = dao.deleteAllPlayers()
 
     suspend fun resetAllPlayerScores() = dao.resetAllPlayerScores()
+
+    suspend fun addScoreToPlayer(playerId: Long, score: Int) {
+        val player = dao.getPlayerById(playerId)
+        if (player != null) {
+            dao.upsertPlayer(player.copy(scores = player.scores + score))
+        }
+    }
 }

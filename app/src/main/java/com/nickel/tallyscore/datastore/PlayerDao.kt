@@ -3,6 +3,7 @@ package com.nickel.tallyscore.datastore
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Upsert
 import com.nickel.tallyscore.data.Player
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +21,11 @@ interface PlayerDao {
     suspend fun deleteAllPlayers()
 
     @Query("UPDATE player SET scores = :emptyScores")
-    suspend fun resetAllPlayerScores(emptyScores: List<Int> = listOf(0))
+    suspend fun resetAllPlayerScores(emptyScores: List<Int> = emptyList())
 
     @Query("SELECT * FROM player")
     fun getPlayers(): Flow<List<Player>>
+
+    @Query("SELECT * FROM player WHERE id = :playerId LIMIT 1")
+    suspend fun getPlayerById(playerId: Long): Player?
 }

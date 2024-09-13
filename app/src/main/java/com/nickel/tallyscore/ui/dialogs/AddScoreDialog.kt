@@ -27,8 +27,8 @@ import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
-fun AddPlayerDialog(
-    state: DialogState.AddingPlayer,
+fun AddScoreDialog(
+    state: DialogState.AddingScore,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -47,19 +47,9 @@ fun AddPlayerDialog(
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             Text(
-                text = "Add Player",
+                text = "Add Score",
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
-            )
-            TallyScoreTextField(
-                text = state.name,
-                onValueChange = { onInteraction(GameInteraction.NameChanged(it)) },
-                label = "Name",
-                placeHolder = "Your name...",
-                maxChars = 20,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .focusRequester(focusRequester)
             )
             TallyScoreTextField(
                 text = state.score,
@@ -68,14 +58,16 @@ fun AddPlayerDialog(
                 placeHolder = "Your score...",
                 keyboardType = KeyboardType.Number,
                 maxChars = 6,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
+                    .padding(16.dp)
+                    .focusRequester(focusRequester)
             )
             Button(
                 onClick = { onInteraction(GameInteraction.DialogConfirmed) },
                 enabled = state.validInput,
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                Text("Create Player")
+                Text("Add Score")
             }
         }
     }
@@ -83,8 +75,8 @@ fun AddPlayerDialog(
 
 @Preview
 @Composable
-private fun AddPlayerDialogPreview() {
+private fun AddScoreDialogPreview() {
     TallyScoreTheme {
-        AddPlayerDialog(state = DialogState.AddingPlayer(name = "Lukas"))
+        AddScoreDialog(state = DialogState.AddingScore(playerId = 1L, score = "45"))
     }
 }

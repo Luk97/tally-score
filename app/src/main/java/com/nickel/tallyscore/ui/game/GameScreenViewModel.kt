@@ -36,9 +36,10 @@ class GameScreenViewModel @Inject constructor(
             GameInteraction.DeleteClicked -> onDeleteClicked()
             GameInteraction.DialogDismissed -> onDialogDismissed()
             GameInteraction.AddPlayerClicked -> onAddPlayerClicked()
-            is GameInteraction.PlayerNameChanged -> onPlayerNameChanged(interaction.name)
-            is GameInteraction.PlayerScoreChanged -> onPlayerScoreChanged(interaction.score)
-            GameInteraction.PlayerAdded -> onPlayerAdded()
+            is GameInteraction.AddScoreClicked -> onAddScoreClicked(interaction.playerId)
+            is GameInteraction.NameChanged -> onNameChanged(interaction.name)
+            is GameInteraction.ScoreChanged -> onScoreChanged(interaction.score)
+            GameInteraction.DialogConfirmed -> onDialogConfirmed()
         }
     }
 
@@ -66,7 +67,11 @@ class GameScreenViewModel @Inject constructor(
         _state.update { it.copy(dialogState = DialogState.AddingPlayer()) }
     }
 
-    private fun onPlayerNameChanged(name: String) {
+    private fun onAddScoreClicked(playerId: Long) {
+        _state.update { it.copy(dialogState = DialogState.AddingScore(playerId = playerId)) }
+    }
+
+    private fun onNameChanged(name: String) {
         when (val dialogState = _state.value.dialogState) {
             is DialogState.AddingPlayer -> {
                 _state.update {
@@ -80,10 +85,9 @@ class GameScreenViewModel @Inject constructor(
             }
             else -> {}
         }
-
     }
 
-    private fun onPlayerScoreChanged(value: String) {
+    private fun onScoreChanged(value: String) {
         when (val dialogState = _state.value.dialogState) {
             is DialogState.AddingPlayer -> {
                 val score = value
@@ -100,18 +104,35 @@ class GameScreenViewModel @Inject constructor(
                     )
                 }
             }
+            is DialogState.AddingScore -> {
+                val score = value
+                    .filter { it.isDigit() }
+                    .toIntOrNull()
+                    ?.toString()
+                    ?: value
+                _state.update {
+                    it.copy(dialogState = DialogState.AddingScore(
+                        playerId = dialogState.playerId,
+                        score = score
+                    ))
+                }
+            }
             else -> {}
         }
     }
 
-    private fun onPlayerAdded() {
-
+    private fun onDialogConfirmed() {
         viewModelScope.launch {
             when (val dialogState = _state.value.dialogState) {
                 is DialogState.AddingPlayer -> {
+                    val scores = dialogState.score.toIntOrNull()?.let { listOf(it) } ?: emptyList()
+                    val player = Player(name = dialogState.name, scores = scores)
+                    repository.upsertPlayer(player)
+
+                }
+                is DialogState.AddingScore -> {
                     dialogState.score.toInt().let {
-                        val player = Player(name = dialogState.name, scores = listOf(it))
-                        repository.upsertPlayer(player)
+                        repository.addScoreToPlayer(dialogState.playerId, it)
                     }
                 }
                 else -> {}
@@ -119,5 +140,7 @@ class GameScreenViewModel @Inject constructor(
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }
+
+
 }
 

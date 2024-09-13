@@ -27,7 +27,7 @@ dagger-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compo
 room-database = { module = "androidx.room:room-runtime", version.ref = "room-database" }
 room-database-compiler = { module = "androidx.room:room-compiler", version.ref = "room-database" }
 room-database-ktx = { module = "androidx.room:room-ktx", version.ref = "room-database"}
-gson = {module = "com.google.code.gson:gson", version.ref = "gson" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 [bundles]
 compose = [
