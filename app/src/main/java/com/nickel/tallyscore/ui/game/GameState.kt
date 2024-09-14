@@ -29,6 +29,13 @@ data class GameState(
                 get() = name.isNotEmpty()
         }
 
+        data class EditingPlayer(
+            val player: Player
+        ): DialogState(), Validatable {
+            override val isValid: Boolean
+                get() = player.name.isNotEmpty()
+        }
+
         data class AddingScore(
             val playerId: Long,
             val score: String = ""

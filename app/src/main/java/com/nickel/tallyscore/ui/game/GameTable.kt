@@ -1,6 +1,7 @@
 package com.nickel.tallyscore.ui.game
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -140,13 +141,23 @@ private fun PlayerColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Text(
-            text = player.name,
-            color = MaterialTheme.colorScheme.onBackground,
+        Box(
+            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .height(itemHeight)
-                .wrapContentSize(Alignment.Center)
-        )
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .clickable { onInteraction(GameInteraction.EditPlayerClicked(player)) }
+        ) {
+            Text(
+                text = player.name,
+                color = MaterialTheme.colorScheme.onBackground,
+                maxLines = 1,
+                modifier = Modifier
+                    .height(itemHeight)
+                    .wrapContentSize(Alignment.Center)
+            )
+        }
+
         player.scores.forEachIndexed { index, score ->
             Box(
                 contentAlignment = Alignment.Center,
@@ -189,7 +200,7 @@ private fun PlayerColumn(
             modifier = modifier
                 .height(itemHeight)
                 .wrapContentSize(Alignment.Center)
-                .scale(0.6f)
+                .scale(0.7f)
                 .aspectRatio(1f)
                 .clip(RoundedCornerShape(8.dp))
         )

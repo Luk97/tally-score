@@ -39,6 +39,8 @@ class GameScreenViewModel @Inject constructor(
             GameInteraction.DeleteClicked -> onDeleteClicked()
             GameInteraction.DialogDismissed -> onDialogDismissed()
             GameInteraction.AddPlayerClicked -> onAddPlayerClicked()
+            is GameInteraction.EditPlayerClicked -> onEditPlayerClicked(interaction.player)
+            is GameInteraction.DeletePlayerClicked -> onDeletePlayerClicked(interaction.player)
             is GameInteraction.AddScoreClicked -> onAddScoreClicked(interaction.playerId)
             is GameInteraction.EditScoreClicked -> onEditScoreClicked(
                 interaction.playerId,
@@ -81,8 +83,19 @@ class GameScreenViewModel @Inject constructor(
         _state.update { it.copy(dialogState = DialogState.AddingPlayer()) }
     }
 
+    private fun onEditPlayerClicked(player: Player) {
+        _state.update { it.copy(dialogState = DialogState.EditingPlayer(player)) }
+    }
+
+    private fun onDeletePlayerClicked(player: Player) {
+        viewModelScope.launch {
+            repository.deletePlayer(player)
+        }
+        _state.update { it.copy(dialogState = DialogState.None) }
+    }
+
     private fun onAddScoreClicked(playerId: Long) {
-        _state.update { it.copy(dialogState = DialogState.AddingScore(playerId = playerId)) }
+        _state.update { it.copy(dialogState = DialogState.AddingScore(playerId)) }
     }
 
     private fun onEditScoreClicked(playerId: Long, score: String, index: Int) {
@@ -98,26 +111,24 @@ class GameScreenViewModel @Inject constructor(
     }
 
     private fun onNameChanged(name: String) {
-        when (val dialogState = _state.value.dialogState) {
-            is DialogState.AddingPlayer -> {
-                _state.update {
-                    it.copy(
-                        dialogState = DialogState.AddingPlayer(
-                            name = name,
-                            score = dialogState.score
-                        )
-                    )
-                }
+        _state.update { it.copy(dialogState =
+            when (it.dialogState) {
+                is DialogState.AddingPlayer -> DialogState.AddingPlayer(
+                    name = name,
+                    score = it.dialogState.score
+                )
+                is DialogState.EditingPlayer -> DialogState.EditingPlayer(
+                    player = it.dialogState.player.copy(name = name)
+                )
+                else -> DialogState.None
             }
-            else -> {}
-        }
+        ) }
     }
 
     private fun onScoreChanged(value: String) {
         val score = value.handlePotentialMissingComma()
         _state.update {
-            it.copy(
-                dialogState =
+            it.copy(dialogState =
                 when (it.dialogState) {
                     is DialogState.AddingPlayer -> DialogState.AddingPlayer(
                         name = it.dialogState.name,
@@ -153,6 +164,7 @@ class GameScreenViewModel @Inject constructor(
                     is DialogState.AddingPlayer -> repository.upsertPlayer(
                         Player(name = dialogState.name, scores = dialogState.score.toIntList())
                     )
+                    is DialogState.EditingPlayer -> repository.upsertPlayer(dialogState.player)
                     is DialogState.AddingScore ->
                         repository.addPlayerScore(dialogState.playerId, dialogState.score.toInt())
                     is DialogState.EditingScore -> repository.updatePlayerScore(
