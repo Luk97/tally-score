@@ -24,9 +24,18 @@ class PlayerRepository(private val dao: PlayerDao) {
     suspend fun updatePlayerScore(playerId: Long, score: Int, index: Int) {
         val player = dao.getPlayerById(playerId)
         if (player != null && index in player.scores.indices) {
-            val updatedScores = player.scores.toMutableList()
-            updatedScores[index] = score
-            dao.upsertPlayer(player.copy(scores = updatedScores))
+            val scores = player.scores.toMutableList()
+            scores[index] = score
+            dao.upsertPlayer(player.copy(scores = scores))
+        }
+    }
+
+    suspend fun deletePlayerScore(playerId: Long, index: Int) {
+        val player = dao.getPlayerById(playerId)
+        if (player != null) {
+            val scores = player.scores.toMutableList()
+            scores.removeAt(index)
+            dao.upsertPlayer(player.copy(scores = scores))
         }
     }
 }

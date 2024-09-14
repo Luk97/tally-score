@@ -3,24 +3,26 @@ package com.nickel.tallyscore.ui.dialogs
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.nickel.tallyscore.ui.components.TallyScoreIconButton
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState.DialogState
@@ -56,12 +58,33 @@ fun EditScoreDialog(
                 requestFocus = true,
                 modifier = Modifier.padding(16.dp)
             )
-            Button(
-                onClick = { onInteraction(GameInteraction.DialogConfirmed) },
-                enabled = state.validInput,
-                modifier = Modifier.padding(bottom = 16.dp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Edit Score")
+                Spacer(Modifier.weight(1f))
+
+                Button(
+                    onClick = { onInteraction(GameInteraction.DialogConfirmed) },
+                    enabled = state.validInput,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                ) {
+                    Text("Edit Score")
+                }
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(bottom = 8.dp, end = 8.dp)
+                ) {
+                    TallyScoreIconButton(
+                        imageVector = Icons.Default.Delete,
+                        onClick = { onInteraction(GameInteraction.DeleteScoreClicked(state.playerId, state.index)) },
+                        modifier = Modifier.scale(0.9f)
+                    )
+                }
             }
         }
     }

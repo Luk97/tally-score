@@ -1,21 +1,19 @@
 package com.nickel.tallyscore.ui.components
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Replay
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nickel.tallyscore.ui.game.GameInteraction
@@ -53,35 +51,23 @@ private fun TopBarActions(
     onResetClicked: () -> Unit = {},
     onDeleteClicked: () -> Unit = {}
 ) {
-    IconButton(
-        onClick = onInfoClicked
-    ) {
-        Icon(
-            imageVector = Icons.Default.Info,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
+    TallyScoreIconButton(
+        imageVector = Icons.Default.Info,
+        onClick = onInfoClicked,
+        modifier = Modifier.scale(1.5f)
+    )
     Spacer(Modifier.width(8.dp))
-    IconButton(
-            onClick = onResetClicked
-            ) {
-        Icon(
-            imageVector = Icons.Default.Replay,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
+    TallyScoreIconButton(
+        imageVector = Icons.Default.Replay,
+        onClick = onResetClicked,
+        modifier = Modifier.scale(1.5f)
+    )
     Spacer(Modifier.width(8.dp))
-    IconButton(
-        onClick = onDeleteClicked
-    ) {
-        Icon(
-            imageVector = Icons.Default.DeleteForever,
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize()
-        )
-    }
+    TallyScoreIconButton(
+        imageVector = Icons.Default.DeleteForever,
+        onClick = onDeleteClicked,
+        modifier = Modifier.scale(1.5f)
+    )
 }
 
 @Preview
