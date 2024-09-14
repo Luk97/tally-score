@@ -17,6 +17,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState.DialogState
@@ -45,24 +46,26 @@ fun AddPlayerDialog(
             TallyScoreTextField(
                 text = state.name,
                 onValueChange = { onInteraction(GameInteraction.NameChanged(it)) },
+                onDone = { onInteraction(GameInteraction.DialogConfirmed) },
                 label = "Name",
                 placeHolder = "Your name...",
-                maxChars = 20,
+                maxChars = TallyScoreConfig.PLAYER_NAME_MAX_CHARS,
                 requestFocus = true,
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             TallyScoreTextField(
                 text = state.score,
                 onValueChange = { onInteraction(GameInteraction.ScoreChanged(it)) },
+                onDone = { onInteraction(GameInteraction.DialogConfirmed) },
                 label = "Score",
                 placeHolder = "Your score...",
                 keyboardType = KeyboardType.Number,
-                maxChars = 6,
+                maxChars = TallyScoreConfig.PLAYER_SCORE_MAX_CHARS,
                 modifier = Modifier.padding(16.dp)
             )
             Button(
                 onClick = { onInteraction(GameInteraction.DialogConfirmed) },
-                enabled = state.validInput,
+                enabled = state.isValid,
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Text("Add Player")

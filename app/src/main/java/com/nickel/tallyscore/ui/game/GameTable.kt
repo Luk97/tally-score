@@ -140,7 +140,6 @@ private fun PlayerColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-
         Text(
             text = player.name,
             color = MaterialTheme.colorScheme.onBackground,
