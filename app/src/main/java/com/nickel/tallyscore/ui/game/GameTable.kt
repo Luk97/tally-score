@@ -1,7 +1,6 @@
 package com.nickel.tallyscore.ui.game
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -146,7 +145,10 @@ private fun PlayerColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
-                .clickable { onInteraction(GameInteraction.EditPlayerClicked(player)) }
+                .combinedClickable(
+                    onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
+                    onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
+                )
         ) {
             Text(
                 text = player.name,

@@ -3,6 +3,7 @@ package com.nickel.tallyscore.ui.game
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.core.Validatable
+import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.datastore.PlayerRepository
 import com.nickel.tallyscore.ui.game.GameState.DialogState
@@ -90,6 +91,12 @@ class GameScreenViewModel @Inject constructor(
     private fun onDeletePlayerClicked(player: Player) {
         viewModelScope.launch {
             repository.deletePlayer(player)
+            SnackBarController.sendEvent(
+                message = "Player ${player.name} deleted",
+                actionLabel = "Undo"
+            ) {
+                repository.upsertPlayer(player)
+            }
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }

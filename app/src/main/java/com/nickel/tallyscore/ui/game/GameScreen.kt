@@ -2,12 +2,20 @@ package com.nickel.tallyscore.ui.game
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.nickel.tallyscore.core.snackbar.ObserveAsEvents
+import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.ui.components.AddPlayerButton
 import com.nickel.tallyscore.ui.components.TallyScoreTopBar
@@ -17,6 +25,7 @@ import com.nickel.tallyscore.ui.dialogs.EditPlayerDialog
 import com.nickel.tallyscore.ui.dialogs.EditScoreDialog
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun GameScreen(viewModel: GameScreenViewModel = viewModel()) {
@@ -29,13 +38,34 @@ private fun GameScreen(
     state: GameState,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    ObserveAsEvents(
+        flow = SnackBarController.events,
+        key1 = snackBarHostState
+    ) { event ->
+        scope.launch {
+            snackBarHostState.currentSnackbarData?.dismiss()
+            val result = snackBarHostState.showSnackbar(
+                message = event.message,
+                actionLabel = event.action?.label,
+                duration = SnackbarDuration.Long
+            )
+            if (result == SnackbarResult.ActionPerformed) {
+                event.action?.action?.invoke()
+            }
+        }
+    }
+
     Scaffold(
         topBar = { TallyScoreTopBar(onInteraction = onInteraction) },
         floatingActionButton = {
             AddPlayerButton(
                 onAddPlayerClicked = { onInteraction(GameInteraction.AddPlayerClicked) }
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { innerPadding ->
         GameTable(
             state = state,
