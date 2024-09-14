@@ -94,6 +94,14 @@ fun GameTable(
                 modifier = Modifier.height(itemHeight.dp)
             )
         }
+        if (state.showPlacements) {
+            PlacementsRow(
+                placements = state.placements,
+                titleWidth = turnColumnWidth.dp,
+                itemWidth = playerColumnWidth.dp,
+                modifier = Modifier.height(itemHeight.dp)
+            )
+        }
     }
 }
 
@@ -240,6 +248,37 @@ private fun TotalScoreRow(
     }
 }
 
+@Composable
+private fun PlacementsRow(
+    placements: List<Int>,
+    titleWidth: Dp,
+    itemWidth: Dp,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start,
+        modifier = modifier
+    ) {
+        Text(
+            text = "Placement",
+            color = MaterialTheme.colorScheme.onBackground,
+            modifier = Modifier
+                .width(titleWidth)
+                .wrapContentWidth(Alignment.CenterHorizontally)
+        )
+        placements.forEach {
+            Text(
+                text = "$it.",
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier
+                    .width(itemWidth)
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun GameTablePreview() {
@@ -249,7 +288,7 @@ private fun GameTablePreview() {
                 players = listOf(
                     Player(
                         name = "Lukas",
-                        scores = listOf(10, 30, 20, 20)
+                        scores = listOf(10, 10, 20, 20)
                     ),
                     Player(
                         name = "Linda",
@@ -257,22 +296,10 @@ private fun GameTablePreview() {
                     ),
                     Player(
                         name = "Maria",
-                        scores = listOf(10, 30, 20, 20)
+                        scores = listOf(10, 10, 10, 20)
                     ),
                     Player(
                         name = "Anne",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Peter",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Peter",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Peter",
                         scores = listOf(10, 30, 20, 20)
                     )
                 )

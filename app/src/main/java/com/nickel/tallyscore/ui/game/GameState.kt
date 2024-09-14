@@ -2,6 +2,7 @@ package com.nickel.tallyscore.ui.game
 
 import com.nickel.tallyscore.core.Validatable
 import com.nickel.tallyscore.data.Player
+import com.nickel.tallyscore.utils.PlacementHelper
 
 data class GameState(
     val players: List<Player> = emptyList(),
@@ -11,10 +12,16 @@ data class GameState(
     val turnCount: Int
         get() = players.maxOfOrNull{ it.turns } ?: 0
 
+    val placements: List<Int>
+        get() = PlacementHelper.calculatePlacementOrder(players)
+
     val showTurns: Boolean
         get() = turnCount > 0
 
     val showTotals: Boolean
+        get() = players.isNotEmpty()
+
+    val showPlacements: Boolean
         get() = players.isNotEmpty()
 
     sealed class DialogState {
