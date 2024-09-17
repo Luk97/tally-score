@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.ui.components.TallyScoreIconButton
+import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState.DialogState
@@ -71,7 +72,11 @@ fun EditScoreDialog(
                     enabled = state.isValid,
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
-                    Text("Edit Score")
+                    TallyScoreText(
+                        text = "Edit Score",
+                        textStyle = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
                 }
 
                 Row(

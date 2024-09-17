@@ -15,7 +15,7 @@ data class GameState(
     val placements: List<Int>
         get() = PlacementHelper.calculatePlacementOrder(players)
 
-    val showTurns: Boolean
+    val showLabelColumn: Boolean
         get() = turnCount > 0
 
     val showTotals: Boolean
