@@ -7,12 +7,14 @@ import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.datastore.PlayerRepository
 import com.nickel.tallyscore.ui.game.GameState.DialogState
+import com.nickel.tallyscore.utils.PlacementHelper
 import com.nickel.tallyscore.utils.handlePotentialMissingComma
 import com.nickel.tallyscore.utils.toIntList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,9 +29,20 @@ class GameScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.players.collectLatest { players ->
-                _state.update { it.copy(players = players) }
-            }
+            repository.players
+                .map { players ->
+                    val placements = PlacementHelper.calculatePlacementOrder(players)
+                    val highestTurnCount = players.maxOfOrNull { it.turns } ?: 0
+                    players.mapIndexed { index, player ->
+                        player.copy(
+                            placement = placements[index],
+                            missingTurns = highestTurnCount - player.turns
+                        )
+                    }
+                }
+                .collectLatest { players ->
+                    _state.update { it.copy(players = players) }
+                }
         }
     }
 
@@ -118,38 +131,47 @@ class GameScreenViewModel @Inject constructor(
     }
 
     private fun onNameChanged(name: String) {
-        _state.update { it.copy(dialogState =
-            when (it.dialogState) {
-                is DialogState.AddingPlayer -> DialogState.AddingPlayer(
-                    name = name,
-                    score = it.dialogState.score
-                )
-                is DialogState.EditingPlayer -> DialogState.EditingPlayer(
-                    player = it.dialogState.player.copy(name = name)
-                )
-                else -> DialogState.None
-            }
-        ) }
+        _state.update {
+            it.copy(
+                dialogState =
+                when (it.dialogState) {
+                    is DialogState.AddingPlayer -> DialogState.AddingPlayer(
+                        name = name,
+                        score = it.dialogState.score
+                    )
+
+                    is DialogState.EditingPlayer -> DialogState.EditingPlayer(
+                        player = it.dialogState.player.copy(name = name)
+                    )
+
+                    else -> DialogState.None
+                }
+            )
+        }
     }
 
     private fun onScoreChanged(value: String) {
         val score = value.handlePotentialMissingComma()
         _state.update {
-            it.copy(dialogState =
+            it.copy(
+                dialogState =
                 when (it.dialogState) {
                     is DialogState.AddingPlayer -> DialogState.AddingPlayer(
                         name = it.dialogState.name,
                         score = score
                     )
+
                     is DialogState.AddingScore -> DialogState.AddingScore(
                         playerId = it.dialogState.playerId,
                         score = score
                     )
+
                     is DialogState.EditingScore -> DialogState.EditingScore(
                         playerId = it.dialogState.playerId,
                         score = score,
                         index = it.dialogState.index
                     )
+
                     else -> DialogState.None
                 }
             )
@@ -171,14 +193,17 @@ class GameScreenViewModel @Inject constructor(
                     is DialogState.AddingPlayer -> repository.upsertPlayer(
                         Player(name = dialogState.name, scores = dialogState.score.toIntList())
                     )
+
                     is DialogState.EditingPlayer -> repository.upsertPlayer(dialogState.player)
                     is DialogState.AddingScore ->
                         repository.addPlayerScore(dialogState.playerId, dialogState.score.toInt())
+
                     is DialogState.EditingScore -> repository.updatePlayerScore(
                         dialogState.playerId,
                         dialogState.score.toInt(),
                         dialogState.index
                     )
+
                     else -> {}
                 }
             }

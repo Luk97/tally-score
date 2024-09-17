@@ -57,7 +57,7 @@ fun PlayerColumn(
             itemHeight = itemHeight,
             onInteraction = onInteraction
         )
-        repeat(player.getMissingTurns(state.turnCount)) {
+        repeat(player.missingTurns) {
             Spacer(Modifier.height(itemHeight))
         }
         if (state.showTotals) {
@@ -68,7 +68,7 @@ fun PlayerColumn(
         }
         if (state.showPlacements) {
             PlayerPlacement(
-                placement = player.getPlacement(state.players),
+                placement = player.placement,
                 itemHeight = itemHeight
             )
         }
@@ -87,6 +87,7 @@ private fun PlayerName(
         contentAlignment = Alignment.Center,
         modifier = modifier
             .fillMaxWidth()
+            .height(itemHeight)
             .clip(RoundedCornerShape(8.dp))
             .combinedClickable(
                 onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
@@ -97,7 +98,6 @@ private fun PlayerName(
             text = player.name,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier
-                .height(itemHeight)
                 .wrapContentSize(Alignment.Center)
         )
     }
@@ -116,6 +116,7 @@ private fun PlayerScores(
             contentAlignment = Alignment.Center,
             modifier = modifier
                 .fillMaxWidth()
+                .height(itemHeight)
                 .clip(RoundedCornerShape(8.dp))
                 .combinedClickable(
                     onClick = {
@@ -141,7 +142,6 @@ private fun PlayerScores(
                 text = score.toString(),
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
-                    .height(itemHeight)
                     .wrapContentSize(Alignment.Center)
             )
         }
@@ -196,7 +196,6 @@ private fun PlayerPlacement(
             .wrapContentSize(Alignment.Center)
     )
 }
-
 
 @Preview
 @Composable

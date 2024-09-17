@@ -20,8 +20,4 @@ object PlacementHelper {
 
         return players.map { placements[it] ?: 0 }
     }
-
-    fun calculatePlayerPlacement(players: List<Player>): Int {
-        return 1
-    }
 }

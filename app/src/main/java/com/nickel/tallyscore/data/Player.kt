@@ -8,6 +8,8 @@ import com.nickel.tallyscore.utils.PlacementHelper
 data class Player(
     val name: String,
     val scores: List<Int> = emptyList(),
+    val placement: Int = 0,
+    val missingTurns: Int = 0,
     @PrimaryKey(autoGenerate = true) val id: Long = 0L
 ) {
     val turns: Int
@@ -15,8 +17,4 @@ data class Player(
 
     val totalScore: Int
         get() = scores.sum()
-
-    fun getMissingTurns(turnCount: Int) = turnCount - turns
-
-    fun getPlacement(players: List<Player>) = PlacementHelper.calculatePlayerPlacement(players)
 }

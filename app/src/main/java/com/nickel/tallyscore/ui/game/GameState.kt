@@ -12,17 +12,17 @@ data class GameState(
     val turnCount: Int
         get() = players.maxOfOrNull{ it.turns } ?: 0
 
-    val placements: List<Int>
-        get() = PlacementHelper.calculatePlacementOrder(players)
-
-    val showLabelColumn: Boolean
-        get() = turnCount > 0
+    val showLabels: Boolean
+        get() = players.isNotEmpty()
 
     val showTotals: Boolean
-        get() = players.isNotEmpty()
+        get() = showLabels
 
     val showPlacements: Boolean
-        get() = players.isNotEmpty()
+        get() = showLabels
+
+    val columnItemCount: Int
+        get() = listOf(showTotals, showPlacements).count { it } + turnCount + 3
 
     sealed class DialogState {
 
