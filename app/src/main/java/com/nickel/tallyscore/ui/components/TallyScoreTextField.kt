@@ -61,7 +61,7 @@ fun TallyScoreTextField(
         label = label?.let { { Text(it) } },
         placeholder = placeHolder?.let { { Text(it) } },
         keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.Sentences,
+            capitalization = KeyboardCapitalization.Words,
             keyboardType = keyboardType,
             imeAction = ImeAction.Done
         ),

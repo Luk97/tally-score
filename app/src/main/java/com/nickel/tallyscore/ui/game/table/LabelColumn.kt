@@ -29,13 +29,6 @@ fun LabelColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        TallyScoreText(
-            text = "Turn",
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier
-                .height(itemHeight)
-                .wrapContentSize(Alignment.Center)
-        )
         (1..state.turnCount).forEach {
             Text(
                 text = "$it",

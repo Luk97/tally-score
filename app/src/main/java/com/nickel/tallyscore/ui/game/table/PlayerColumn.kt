@@ -42,11 +42,6 @@ fun PlayerColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        PlayerName(
-            player = player,
-            itemHeight = itemHeight,
-            onInteraction = onInteraction
-        )
         PlayerScores(
             player = player,
             itemHeight = itemHeight,
@@ -72,34 +67,6 @@ fun PlayerColumn(
                 itemHeight = itemHeight
             )
         }
-    }
-}
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-private fun PlayerName(
-    player: Player,
-    itemHeight: Dp,
-    modifier: Modifier = Modifier,
-    onInteraction: (GameInteraction) -> Unit = {}
-) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(itemHeight)
-            .clip(RoundedCornerShape(8.dp))
-            .combinedClickable(
-                onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
-                onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
-            )
-    ) {
-        TallyScoreText(
-            text = player.name,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier
-                .wrapContentSize(Alignment.Center)
-        )
     }
 }
 
