@@ -2,7 +2,6 @@ package com.nickel.tallyscore.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.nickel.tallyscore.utils.PlacementHelper
 
 @Entity
 data class Player(

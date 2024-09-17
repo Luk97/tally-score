@@ -2,7 +2,6 @@ package com.nickel.tallyscore.ui.game
 
 import com.nickel.tallyscore.core.Validatable
 import com.nickel.tallyscore.data.Player
-import com.nickel.tallyscore.utils.PlacementHelper
 
 data class GameState(
     val players: List<Player> = emptyList(),
