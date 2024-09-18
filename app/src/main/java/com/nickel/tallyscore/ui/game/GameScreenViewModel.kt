@@ -48,7 +48,7 @@ class GameScreenViewModel @Inject constructor(
             is GameInteraction.AddScoreConfirmed -> onAddScoreConfirmed(interaction.player, interaction.score)
 
             is GameInteraction.EditScoreClicked -> onEditScoreClicked(interaction.player, interaction.index)
-            is GameInteraction.EditScoreConfirmed -> onEditScoreConfirmed(interaction.player, interaction.score)
+            is GameInteraction.EditScoreConfirmed -> onEditScoreConfirmed(interaction.player, interaction.index, interaction.score)
             is GameInteraction.DeleteScoreClicked -> onDeleteScoreClicked(interaction.player, interaction.index)
 
             GameInteraction.DialogDismissed -> onDialogDismissed()
@@ -139,9 +139,9 @@ class GameScreenViewModel @Inject constructor(
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 
-    private fun onEditScoreConfirmed(player: Player, score: String) {
+    private fun onEditScoreConfirmed(player: Player, index: Int, score: String) {
         viewModelScope.launch {
-            repository.addPlayerScore(player = player, score.toInt())
+            repository.updatePlayerScore(player = player, index, score.toSafeInt())
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }

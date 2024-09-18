@@ -26,6 +26,7 @@ import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 import com.nickel.tallyscore.utils.InputValidator
+import com.nickel.tallyscore.utils.handlePotentialMissingComma
 
 @Composable
 fun AddPlayerDialog(
@@ -66,7 +67,7 @@ fun AddPlayerDialog(
             )
             TallyScoreTextField(
                 text = localScore,
-                onValueChange = { localScore = it },
+                onValueChange = { localScore = it.handlePotentialMissingComma() },
                 onDone = {
                     if (InputValidator.isValidName(localName)) {
                         onInteraction(GameInteraction.AddPlayerConfirmed(localName, localScore))
