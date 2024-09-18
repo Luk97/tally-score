@@ -2,15 +2,18 @@ package com.nickel.tallyscore.ui.game.table
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -40,14 +43,14 @@ fun GameTable(
     val turnColumnWidth = remember(playerColumnWidth) {
         playerColumnWidth / 1.5
     }
-    val itemHeight = remember(playerColumnWidth) {
+    val cellHeight = remember(playerColumnWidth) {
         playerColumnWidth / 2
     }
     val tableWidth = remember(state.players.size, turnColumnWidth, playerColumnWidth) {
         state.players.size * playerColumnWidth + turnColumnWidth + 17
     }
-    val columnHeight = remember(state.columnItemCount, itemHeight) {
-        state.columnItemCount * itemHeight
+    val columnHeight = remember(state.columnItemCount, cellHeight) {
+        state.columnItemCount * cellHeight
     }
     val verticalScrollState = rememberScrollState()
 
@@ -61,25 +64,34 @@ fun GameTable(
         if (state.showLabels) {
             LabelColumn(
                 state = state,
-                cellHeight = itemHeight.dp,
+                cellHeight = cellHeight.dp,
                 verticalScrollState = verticalScrollState,
                 modifier = Modifier.size(
                     width = turnColumnWidth.dp,
                     height = columnHeight.dp
                 )
             )
-            VerticalDivider(
-                thickness = 1.dp,
-                color = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier
-                    .height(columnHeight.dp)
-                    .padding(horizontal = 8.dp)
-            )
+            Box {
+                VerticalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .height(columnHeight.dp)
+                        .padding(horizontal = 8.dp)
+                )
+                HorizontalDivider(
+                    thickness = 1.dp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .width(17.dp)
+                        .offset(y = cellHeight.dp)
+                )
+            }
         }
 
         PlayerList(
             state = state,
-            itemHeight = itemHeight.dp,
+            cellHeight = cellHeight.dp,
             playerColumnWidth = playerColumnWidth.dp,
             onInteraction = onInteraction,
             verticalScrollState = verticalScrollState,
@@ -94,7 +106,7 @@ fun GameTable(
 @Composable
 private fun PlayerList(
     state: GameState,
-    itemHeight: Dp,
+    cellHeight: Dp,
     playerColumnWidth: Dp,
     verticalScrollState: ScrollState,
     modifier: Modifier = Modifier,
@@ -109,7 +121,7 @@ private fun PlayerList(
             PlayerColumn(
                 state = state,
                 player = player,
-                itemHeight = itemHeight,
+                cellHeight = cellHeight,
                 verticalScrollState = verticalScrollState,
                 modifier = Modifier.width(playerColumnWidth),
                 onInteraction = onInteraction

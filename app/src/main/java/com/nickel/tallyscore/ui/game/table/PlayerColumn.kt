@@ -24,7 +24,7 @@ import com.nickel.tallyscore.ui.game.GameState
 fun PlayerColumn(
     state: GameState,
     player: Player,
-    itemHeight: Dp,
+    cellHeight: Dp,
     verticalScrollState: ScrollState,
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
@@ -37,7 +37,7 @@ fun PlayerColumn(
         TableCell(
             text = player.name,
             modifier = Modifier
-                .height(itemHeight)
+                .height(cellHeight)
                 .combinedClickable(
                     onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
                     onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
@@ -46,14 +46,13 @@ fun PlayerColumn(
 
         HorizontalDivider(
             thickness = 1.dp,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         ScrollablePlayerColumn(
             state = state,
             player = player,
-            itemHeight = itemHeight,
+            cellHeight = cellHeight,
             onInteraction = onInteraction,
             modifier = Modifier.verticalScroll(verticalScrollState)
         )
@@ -64,7 +63,7 @@ fun PlayerColumn(
 private fun ScrollablePlayerColumn(
     state: GameState,
     player: Player,
-    itemHeight: Dp,
+    cellHeight: Dp,
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
@@ -72,30 +71,30 @@ private fun ScrollablePlayerColumn(
         PlayerScores(
             player = player,
             onInteraction = onInteraction,
-            modifier = Modifier.height(itemHeight)
+            modifier = Modifier.height(cellHeight)
         )
 
         AddPlayerScoreCell(
             player = player,
             onInteraction = onInteraction,
-            modifier = Modifier.height(itemHeight)
+            modifier = Modifier.height(cellHeight)
         )
 
         repeat(player.missingTurns) {
-            Spacer(Modifier.height(itemHeight))
+            Spacer(Modifier.height(cellHeight))
         }
 
         if (state.showTotals) {
             TableCell(
                 text = "${player.totalScore}",
-                modifier = Modifier.height(itemHeight)
+                modifier = Modifier.height(cellHeight)
             )
         }
 
         if (state.showPlacements) {
             TableCell(
                 text = "${player.placement}",
-                modifier = Modifier.height(itemHeight)
+                modifier = Modifier.height(cellHeight)
             )
         }
     }
