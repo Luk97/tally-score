@@ -1,10 +1,21 @@
 package com.nickel.tallyscore.datastore
 
 import com.nickel.tallyscore.data.Player
+import com.nickel.tallyscore.utils.PlacementHelper
+import kotlinx.coroutines.flow.map
 
 class PlayerRepository(private val dao: PlayerDao) {
 
-    val players = dao.getPlayers()
+    val players = dao.getPlayers().map { players ->
+        val placements = PlacementHelper.calculatePlacementOrder(players)
+        val highestTurnCount = players.maxOfOrNull { it.turns } ?: 0
+        players.mapIndexed { index, player ->
+            player.copy(
+                placement = placements[index],
+                missingTurns = highestTurnCount - player.turns
+            )
+        }
+    }
 
     suspend fun upsertPlayer(player: Player): Long = dao.upsertPlayer(player)
 

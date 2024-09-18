@@ -21,7 +21,7 @@ data class GameState(
         get() = showLabels
 
     val columnItemCount: Int
-        get() = listOf(showTotals, showPlacements).count { it } + turnCount + 1
+        get() = listOf(showTotals, showPlacements).count { it } + turnCount + 2
 
     sealed class DialogState {
 
