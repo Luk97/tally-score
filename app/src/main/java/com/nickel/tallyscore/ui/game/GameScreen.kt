@@ -90,19 +90,19 @@ private fun GameDialogs(
 ) {
     when (dialogState) {
         is DialogState.AddingPlayer -> AddPlayerDialog(
-            state = dialogState,
             onInteraction = onInteraction
         )
         is DialogState.EditingPlayer -> EditPlayerDialog(
-            state = dialogState,
+            player = dialogState.player,
             onInteraction = onInteraction
         )
         is DialogState.AddingScore -> AddScoreDialog(
-            state = dialogState,
+            player = dialogState.player,
             onInteraction = onInteraction
         )
         is DialogState.EditingScore -> EditScoreDialog(
-            state = dialogState,
+            player = dialogState.player,
+            scoreIndex = dialogState.index,
             onInteraction = onInteraction
         )
         else -> {}

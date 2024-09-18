@@ -76,7 +76,7 @@ private fun ScrollablePlayerColumn(
         )
 
         AddPlayerScoreCell(
-            playerId = player.id,
+            player = player,
             onInteraction = onInteraction,
             modifier = Modifier.height(itemHeight)
         )
@@ -115,8 +115,7 @@ private fun PlayerScores(
                 onClick = {
                     onInteraction(
                         GameInteraction.EditScoreClicked(
-                            playerId = player.id,
-                            score = "$score",
+                            player = player,
                             index = index
                         )
                     )
@@ -124,7 +123,7 @@ private fun PlayerScores(
                 onLongClick = {
                     onInteraction(
                         GameInteraction.DeleteScoreClicked(
-                            playerId = player.id,
+                            player = player,
                             index = index
                         )
                     )

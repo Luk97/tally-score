@@ -9,6 +9,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,17 +21,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.nickel.tallyscore.core.TallyScoreConfig
+import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
-import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.utils.InputValidator
 
 @Composable
 fun AddScoreDialog(
-    state: DialogState.AddingScore,
+    player: Player,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
+    var localScore by remember { mutableStateOf("") }
+
     Dialog(onDismissRequest = { onInteraction(GameInteraction.DialogDismissed) }) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -45,9 +52,13 @@ fun AddScoreDialog(
                 modifier = Modifier.padding(vertical = 16.dp)
             )
             TallyScoreTextField(
-                text = state.score,
-                onValueChange = { onInteraction(GameInteraction.ScoreChanged(it)) },
-                onDone = { onInteraction(GameInteraction.DialogConfirmed) },
+                text = localScore,
+                onValueChange = { localScore = it },
+                onDone = {
+                    if (InputValidator.isValidScore(localScore)) {
+                        onInteraction(GameInteraction.AddScoreConfirmed(player, localScore))
+                    }
+                },
                 label = "Score",
                 placeHolder = "Your score...",
                 keyboardType = KeyboardType.Number,
@@ -56,8 +67,10 @@ fun AddScoreDialog(
                 modifier = Modifier.padding(16.dp)
             )
             Button(
-                onClick = { onInteraction(GameInteraction.DialogConfirmed) },
-                enabled = state.isValid,
+                onClick = {
+                    onInteraction(GameInteraction.AddScoreConfirmed(player, localScore))
+                },
+                enabled = InputValidator.isValidScore(localScore),
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 TallyScoreText(
@@ -74,6 +87,8 @@ fun AddScoreDialog(
 @Composable
 private fun AddScoreDialogPreview() {
     TallyScoreTheme {
-        AddScoreDialog(state = DialogState.AddingScore(playerId = 1L, score = "45"))
+        AddScoreDialog(
+            player = Player("Lukas")
+        )
     }
 }

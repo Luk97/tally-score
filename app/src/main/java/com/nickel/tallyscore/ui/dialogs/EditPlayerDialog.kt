@@ -13,6 +13,10 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,14 +30,16 @@ import com.nickel.tallyscore.ui.components.TallyScoreIconButton
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
-import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.utils.InputValidator
 
 @Composable
 fun EditPlayerDialog(
-    state: DialogState.EditingPlayer,
+    player: Player,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
+    var localName by remember { mutableStateOf(player.name) }
+
     Dialog(onDismissRequest = { onInteraction(GameInteraction.DialogDismissed) }) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -51,9 +57,13 @@ fun EditPlayerDialog(
                 modifier = Modifier.padding(vertical = 16.dp)
             )
             TallyScoreTextField(
-                text = state.player.name,
-                onValueChange = { onInteraction(GameInteraction.NameChanged(it)) },
-                onDone = { onInteraction(GameInteraction.DialogConfirmed) },
+                text = localName,
+                onValueChange = { localName = it },
+                onDone = {
+                    if (InputValidator.isValidName(localName)) {
+                        onInteraction(GameInteraction.EditPlayerConfirmed(player, localName))
+                    }
+                },
                 label = "Player",
                 placeHolder = "Your name...",
                 maxChars = TallyScoreConfig.PLAYER_NAME_MAX_CHARS,
@@ -67,8 +77,8 @@ fun EditPlayerDialog(
                 Spacer(Modifier.weight(1f))
 
                 Button(
-                    onClick = { onInteraction(GameInteraction.DialogConfirmed) },
-                    enabled = state.isValid,
+                    onClick = { onInteraction(GameInteraction.EditPlayerConfirmed(player, localName)) },
+                    enabled = InputValidator.isValidName(localName),
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     TallyScoreText(
@@ -87,7 +97,7 @@ fun EditPlayerDialog(
                 ) {
                     TallyScoreIconButton(
                         imageVector = Icons.Default.Delete,
-                        onClick = { onInteraction(GameInteraction.DeletePlayerClicked(state.player)) },
+                        onClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) },
                         modifier = Modifier.scale(0.9f)
                     )
                 }
@@ -100,6 +110,6 @@ fun EditPlayerDialog(
 @Composable
 private fun EditPlayerDialogPreview() {
     TallyScoreTheme {
-        EditPlayerDialog(state = DialogState.EditingPlayer(Player(name = "Lukas")))
+        EditPlayerDialog(player = Player("Lukas"))
     }
 }

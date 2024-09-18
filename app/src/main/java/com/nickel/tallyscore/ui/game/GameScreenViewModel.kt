@@ -2,13 +2,12 @@ package com.nickel.tallyscore.ui.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nickel.tallyscore.core.Validatable
 import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.datastore.PlayerRepository
 import com.nickel.tallyscore.ui.game.GameState.DialogState
-import com.nickel.tallyscore.utils.handlePotentialMissingComma
 import com.nickel.tallyscore.utils.toIntList
+import com.nickel.tallyscore.utils.toSafeInt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -38,25 +37,21 @@ class GameScreenViewModel @Inject constructor(
             GameInteraction.InfoClicked -> onInfoClicked()
             GameInteraction.ResetClicked -> onResetClicked()
             GameInteraction.DeleteClicked -> onDeleteClicked()
-            GameInteraction.DialogDismissed -> onDialogDismissed()
+
             GameInteraction.AddPlayerClicked -> onAddPlayerClicked()
+            is GameInteraction.AddPlayerConfirmed -> onAddPlayerConfirmed(interaction.name, interaction.score)
             is GameInteraction.EditPlayerClicked -> onEditPlayerClicked(interaction.player)
+            is GameInteraction.EditPlayerConfirmed -> onEditPlayerConfirmed(interaction.player, interaction.name)
             is GameInteraction.DeletePlayerClicked -> onDeletePlayerClicked(interaction.player)
-            is GameInteraction.AddScoreClicked -> onAddScoreClicked(interaction.playerId)
-            is GameInteraction.EditScoreClicked -> onEditScoreClicked(
-                interaction.playerId,
-                interaction.score,
-                interaction.index
-            )
 
-            is GameInteraction.DeleteScoreClicked -> onDeleteScoreClicked(
-                interaction.playerId,
-                interaction.index
-            )
+            is GameInteraction.AddScoreClicked -> onAddScoreClicked(interaction.player)
+            is GameInteraction.AddScoreConfirmed -> onAddScoreConfirmed(interaction.player, interaction.score)
 
-            is GameInteraction.NameChanged -> onNameChanged(interaction.name)
-            is GameInteraction.ScoreChanged -> onScoreChanged(interaction.score)
-            GameInteraction.DialogConfirmed -> onDialogConfirmed()
+            is GameInteraction.EditScoreClicked -> onEditScoreClicked(interaction.player, interaction.index)
+            is GameInteraction.EditScoreConfirmed -> onEditScoreConfirmed(interaction.player, interaction.score)
+            is GameInteraction.DeleteScoreClicked -> onDeleteScoreClicked(interaction.player, interaction.index)
+
+            GameInteraction.DialogDismissed -> onDialogDismissed()
         }
     }
 
@@ -101,101 +96,53 @@ class GameScreenViewModel @Inject constructor(
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 
-    private fun onAddScoreClicked(playerId: Long) {
-        _state.update { it.copy(dialogState = DialogState.AddingScore(playerId)) }
+    private fun onAddScoreClicked(player: Player) {
+        _state.update { it.copy(dialogState = DialogState.AddingScore(player)) }
     }
 
-    private fun onEditScoreClicked(playerId: Long, score: String, index: Int) {
+    private fun onEditScoreClicked(player: Player, index: Int) {
         _state.update {
             it.copy(
                 dialogState = DialogState.EditingScore(
-                    playerId = playerId,
-                    score = score,
+                    player = player,
                     index = index
                 )
             )
         }
     }
 
-    private fun onNameChanged(name: String) {
-        _state.update {
-            it.copy(
-                dialogState =
-                when (it.dialogState) {
-                    is DialogState.AddingPlayer -> DialogState.AddingPlayer(
-                        name = name,
-                        score = it.dialogState.score
-                    )
-
-                    is DialogState.EditingPlayer -> DialogState.EditingPlayer(
-                        player = it.dialogState.player.copy(name = name)
-                    )
-
-                    else -> DialogState.None
-                }
-            )
-        }
-    }
-
-    private fun onScoreChanged(value: String) {
-        val score = value.handlePotentialMissingComma()
-        _state.update {
-            it.copy(
-                dialogState =
-                when (it.dialogState) {
-                    is DialogState.AddingPlayer -> DialogState.AddingPlayer(
-                        name = it.dialogState.name,
-                        score = score
-                    )
-
-                    is DialogState.AddingScore -> DialogState.AddingScore(
-                        playerId = it.dialogState.playerId,
-                        score = score
-                    )
-
-                    is DialogState.EditingScore -> DialogState.EditingScore(
-                        playerId = it.dialogState.playerId,
-                        score = score,
-                        index = it.dialogState.index
-                    )
-
-                    else -> DialogState.None
-                }
-            )
-        }
-    }
-
-    private fun onDeleteScoreClicked(playerId: Long, index: Int) {
+    private fun onDeleteScoreClicked(player: Player, index: Int) {
         viewModelScope.launch {
-            repository.deletePlayerScore(playerId, index)
+            repository.deletePlayerScore(player, index)
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 
-    private fun onDialogConfirmed() {
+    private fun onAddPlayerConfirmed(name: String, score: String) {
         viewModelScope.launch {
-            val dialogState = _state.value.dialogState
-            if (dialogState is Validatable && dialogState.isValid) {
-                when (dialogState) {
-                    is DialogState.AddingPlayer -> repository.upsertPlayer(
-                        Player(name = dialogState.name, scores = dialogState.score.toIntList())
-                    )
+            repository.upsertPlayer(Player(name = name, score.toIntList()))
+        }
+        _state.update { it.copy(dialogState = DialogState.None) }
+    }
 
-                    is DialogState.EditingPlayer -> repository.upsertPlayer(dialogState.player)
-                    is DialogState.AddingScore ->
-                        repository.addPlayerScore(dialogState.playerId, dialogState.score.toInt())
+    private fun onEditPlayerConfirmed(player: Player, name: String) {
+        viewModelScope.launch {
+            repository.upsertPlayer(player.copy(name = name))
+        }
+        _state.update { it.copy(dialogState = DialogState.None) }
+    }
 
-                    is DialogState.EditingScore -> repository.updatePlayerScore(
-                        dialogState.playerId,
-                        dialogState.score.toInt(),
-                        dialogState.index
-                    )
+    private fun onAddScoreConfirmed(player: Player, score: String) {
+        viewModelScope.launch {
+            repository.addPlayerScore(player, score.toSafeInt())
+        }
+        _state.update { it.copy(dialogState = DialogState.None) }
+    }
 
-                    else -> {}
-                }
-            }
+    private fun onEditScoreConfirmed(player: Player, score: String) {
+        viewModelScope.launch {
+            repository.addPlayerScore(player = player, score.toInt())
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 }
-

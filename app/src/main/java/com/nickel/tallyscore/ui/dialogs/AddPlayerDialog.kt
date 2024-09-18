@@ -9,6 +9,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,14 +24,16 @@ import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
-import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.utils.InputValidator
 
 @Composable
 fun AddPlayerDialog(
-    state: DialogState.AddingPlayer,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
+    var localName by remember { mutableStateOf("") }
+    var localScore by remember { mutableStateOf("") }
+
     Dialog(onDismissRequest = { onInteraction(GameInteraction.DialogDismissed) }) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -45,9 +51,13 @@ fun AddPlayerDialog(
                 modifier = Modifier.padding(vertical = 16.dp)
             )
             TallyScoreTextField(
-                text = state.name,
-                onValueChange = { onInteraction(GameInteraction.NameChanged(it)) },
-                onDone = { onInteraction(GameInteraction.DialogConfirmed) },
+                text = localName,
+                onValueChange = { localName = it },
+                onDone = {
+                    if (InputValidator.isValidName(localName)) {
+                        onInteraction(GameInteraction.AddPlayerConfirmed(localName, localScore))
+                    }
+                },
                 label = "Name",
                 placeHolder = "Your name...",
                 maxChars = TallyScoreConfig.PLAYER_NAME_MAX_CHARS,
@@ -55,9 +65,13 @@ fun AddPlayerDialog(
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
             TallyScoreTextField(
-                text = state.score,
-                onValueChange = { onInteraction(GameInteraction.ScoreChanged(it)) },
-                onDone = { onInteraction(GameInteraction.DialogConfirmed) },
+                text = localScore,
+                onValueChange = { localScore = it },
+                onDone = {
+                    if (InputValidator.isValidName(localName)) {
+                        onInteraction(GameInteraction.AddPlayerConfirmed(localName, localScore))
+                    }
+                },
                 label = "Score",
                 placeHolder = "Your score...",
                 keyboardType = KeyboardType.Number,
@@ -65,8 +79,8 @@ fun AddPlayerDialog(
                 modifier = Modifier.padding(16.dp)
             )
             Button(
-                onClick = { onInteraction(GameInteraction.DialogConfirmed) },
-                enabled = state.isValid,
+                onClick = { onInteraction(GameInteraction.AddPlayerConfirmed(localName, localScore)) },
+                enabled = InputValidator.isValidName(localName),
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 TallyScoreText(
@@ -83,6 +97,6 @@ fun AddPlayerDialog(
 @Composable
 private fun AddPlayerDialogPreview() {
     TallyScoreTheme {
-        AddPlayerDialog(state = DialogState.AddingPlayer(name = "Lukas"))
+        AddPlayerDialog()
     }
 }
