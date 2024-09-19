@@ -61,6 +61,7 @@ dependencies {
     // compose
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
+    implementation(libs.accomponist.systemuicontroller)
 
     // dagger hilt
     implementation(libs.bundles.daggerhilt)

@@ -3,10 +3,6 @@ package com.nickel.tallyscore.ui.game
 import com.nickel.tallyscore.data.Player
 
 sealed class GameInteraction {
-    data object InfoClicked: GameInteraction()
-    data object ResetClicked: GameInteraction()
-    data object DeleteClicked: GameInteraction()
-
     data object AddPlayerClicked: GameInteraction()
     data class AddPlayerConfirmed(val name: String, val score: String): GameInteraction()
 

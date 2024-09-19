@@ -14,10 +14,10 @@ object DatastoreModule {
 
     @Provides
     @Singleton
-    fun providePlayerDatabase(app: Application): PlayerDatabase =
-        Room.databaseBuilder(
-            app, PlayerDatabase::class.java, "player_db"
-        ).build()
+    fun providePlayerDatabase(app: Application): PlayerDatabase = Room
+        .databaseBuilder(app, PlayerDatabase::class.java, "player_db")
+        .fallbackToDestructiveMigration()
+        .build()
 
     @Provides
     @Singleton

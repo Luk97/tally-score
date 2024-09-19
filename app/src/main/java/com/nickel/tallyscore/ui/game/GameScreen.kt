@@ -18,7 +18,6 @@ import com.nickel.tallyscore.core.snackbar.ObserveAsEvents
 import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.ui.components.AddPlayerButton
-import com.nickel.tallyscore.ui.components.TallyScoreTopBar
 import com.nickel.tallyscore.ui.dialogs.AddPlayerDialog
 import com.nickel.tallyscore.ui.dialogs.AddScoreDialog
 import com.nickel.tallyscore.ui.dialogs.EditPlayerDialog
@@ -26,6 +25,7 @@ import com.nickel.tallyscore.ui.dialogs.EditScoreDialog
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.game.table.GameTable
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.ui.topbar.GameTopBar
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,7 +60,7 @@ private fun GameScreen(
     }
 
     Scaffold(
-        topBar = { TallyScoreTopBar(onInteraction = onInteraction) },
+        topBar = { GameTopBar() },
         floatingActionButton = {
             AddPlayerButton(
                 onAddPlayerClicked = { onInteraction(GameInteraction.AddPlayerClicked) }
