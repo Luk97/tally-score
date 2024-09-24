@@ -39,6 +39,12 @@ class PlayerRepository(private val dao: PlayerDao) {
         }
     }
 
+    suspend fun updatePlayerList(players: List<Player>) {
+        players.forEach {
+            dao.upsertPlayer(it)
+        }
+    }
+
     suspend fun deletePlayerScore(player: Player, index: Int) {
         if (player.id != 0L) {
             val scores = player.scores.toMutableList()
