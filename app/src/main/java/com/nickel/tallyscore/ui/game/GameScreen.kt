@@ -24,8 +24,8 @@ import com.nickel.tallyscore.ui.dialogs.EditPlayerDialog
 import com.nickel.tallyscore.ui.dialogs.EditScoreDialog
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.game.table.GameTable
-import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 import com.nickel.tallyscore.ui.game.topbar.GameTopBar
+import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 import kotlinx.coroutines.launch
 
 @Composable
@@ -80,8 +80,6 @@ private fun GameScreen(
         )
     }
 }
-
-
 
 @Composable
 private fun GameDialogs(

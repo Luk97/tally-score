@@ -38,7 +38,7 @@ fun GameTable(
     val screenPadding: Int = remember { 32 }
     val screenWidth = LocalConfiguration.current.screenWidthDp - screenPadding
     val playerColumnWidth = remember(screenWidth) {
-        (screenWidth / 5).coerceAtLeast(64)
+        (screenWidth / 4).coerceAtLeast(64)
     }
     val turnColumnWidth = remember(playerColumnWidth) {
         playerColumnWidth / 1.5
