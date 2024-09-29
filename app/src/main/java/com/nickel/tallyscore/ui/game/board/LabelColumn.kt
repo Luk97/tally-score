@@ -1,26 +1,21 @@
-package com.nickel.tallyscore.ui.game.table
+package com.nickel.tallyscore.ui.game.board
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.nickel.tallyscore.ui.game.GameState
 
 @Composable
 fun LabelColumn(
     state: GameState,
-    cellHeight: Dp,
     verticalScrollState: ScrollState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    cellModifier: Modifier = Modifier
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -29,18 +24,13 @@ fun LabelColumn(
     ) {
         TableCell(
             text = "Turn",
-            modifier = Modifier.height(cellHeight)
-        )
-
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.onBackground
+            modifier = cellModifier
         )
 
         ScrollableLabelColumn(
             state = state,
-            cellHeight = cellHeight,
-            Modifier.verticalScroll(verticalScrollState)
+            Modifier.verticalScroll(verticalScrollState),
+            cellModifier = cellModifier
         )
     }
 }
@@ -48,30 +38,30 @@ fun LabelColumn(
 @Composable
 private fun ScrollableLabelColumn(
     state: GameState,
-    cellHeight: Dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    cellModifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
         (1..state.turnCount).forEach {
             TableCell(
                 text = "$it",
-                modifier = Modifier.height(cellHeight)
+                modifier = cellModifier
             )
         }
 
-        Spacer(Modifier.height(cellHeight))
+        Spacer(cellModifier)
 
         if (state.showTotals) {
             TableCell(
                 text = "Total",
-                modifier = Modifier.height(cellHeight)
+                modifier = cellModifier
             )
         }
 
         if (state.showPlacements) {
             TableCell(
                 text = "Place",
-                modifier = Modifier.height(cellHeight)
+                modifier = cellModifier
             )
         }
     }

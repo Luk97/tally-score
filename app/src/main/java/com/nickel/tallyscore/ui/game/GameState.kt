@@ -10,14 +10,14 @@ data class GameState(
     val turnCount: Int
         get() = players.maxOfOrNull{ it.turns } ?: 0
 
-    val showLabels: Boolean
+    val gameBoardVisible: Boolean
         get() = players.isNotEmpty()
 
     val showTotals: Boolean
-        get() = showLabels
+        get() = gameBoardVisible
 
     val showPlacements: Boolean
-        get() = showLabels
+        get() = gameBoardVisible
 
     val columnItemCount: Int
         get() = listOf(showTotals, showPlacements).count { it } + turnCount + 2

@@ -1,9 +1,8 @@
-package com.nickel.tallyscore.ui.game.table
+package com.nickel.tallyscore.ui.game.board
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -26,7 +25,6 @@ fun TableCell(
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
-            .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .then(modifier)
     ) {
@@ -45,8 +43,8 @@ fun AddPlayerScoreCell(
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
             .then(modifier)
     ) {
         TallyScoreIconButton(
