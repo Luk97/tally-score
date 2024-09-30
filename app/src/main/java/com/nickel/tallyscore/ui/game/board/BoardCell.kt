@@ -18,7 +18,7 @@ import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.game.GameInteraction
 
 @Composable
-fun TableCell(
+fun StandardBoardCell(
     text: String,
     modifier: Modifier = Modifier
 ) {
@@ -36,7 +36,7 @@ fun TableCell(
 }
 
 @Composable
-fun AddPlayerScoreCell(
+fun AddScoreBoardCell(
     player: Player,
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}

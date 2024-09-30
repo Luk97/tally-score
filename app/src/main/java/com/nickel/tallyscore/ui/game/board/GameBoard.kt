@@ -1,14 +1,20 @@
 package com.nickel.tallyscore.ui.game.board
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.VerticalDivider
@@ -83,7 +89,7 @@ fun GameBoardContent(
         modifier = modifier
     ) {
         if (state.gameBoardVisible) {
-            LabelColumn(
+            HeaderColumn(
                 state = state,
                 verticalScrollState = verticalScrollState,
                 cellModifier = cellModifier
@@ -124,6 +130,155 @@ fun GameBoardDivider(
             .offset(y = verticalOffset.dp)
             .fillMaxSize()
     )
+}
+
+@Composable
+private fun HeaderColumn(
+    state: GameState,
+    verticalScrollState: ScrollState,
+    modifier: Modifier = Modifier,
+    cellModifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        StandardBoardCell(
+            text = "Turn",
+            modifier = cellModifier
+        )
+
+        ScrollableHeaderColumn(
+            state = state,
+            Modifier.verticalScroll(verticalScrollState),
+            cellModifier = cellModifier
+        )
+    }
+}
+
+@Composable
+private fun ScrollableHeaderColumn(
+    state: GameState,
+    modifier: Modifier = Modifier,
+    cellModifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        (1..state.turnCount).forEach {
+            StandardBoardCell(
+                text = "$it",
+                modifier = cellModifier
+            )
+        }
+
+        Spacer(cellModifier)
+
+        if (state.showTotals) {
+            StandardBoardCell(
+                text = "Total",
+                modifier = cellModifier
+            )
+        }
+
+        if (state.showPlacements) {
+            StandardBoardCell(
+                text = "Place",
+                modifier = cellModifier
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun PlayerColumn(
+    state: GameState,
+    player: Player,
+    verticalScrollState: ScrollState,
+    modifier: Modifier = Modifier,
+    cellModifier: Modifier = Modifier,
+    onInteraction: (GameInteraction) -> Unit = {}
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        StandardBoardCell(
+            text = player.name,
+            modifier = cellModifier.combinedClickable(
+                onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
+                onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
+            )
+        )
+
+        ScrollablePlayerColumn(
+            state = state,
+            player = player,
+            onInteraction = onInteraction,
+            modifier = Modifier.verticalScroll(verticalScrollState),
+            cellModifier = cellModifier
+        )
+    }
+}
+
+@Composable
+private fun ScrollablePlayerColumn(
+    state: GameState,
+    player: Player,
+    modifier: Modifier = Modifier,
+    cellModifier: Modifier = Modifier,
+    onInteraction: (GameInteraction) -> Unit = {}
+) {
+    Column(modifier = modifier) {
+        PlayerScores(
+            player = player,
+            onInteraction = onInteraction,
+            modifier = cellModifier
+        )
+
+        AddScoreBoardCell(
+            player = player,
+            onInteraction = onInteraction,
+            modifier = cellModifier
+        )
+
+        repeat(player.missingTurns) {
+            Spacer(cellModifier)
+        }
+
+        if (state.showTotals) {
+            StandardBoardCell(
+                text = "${player.totalScore}",
+                modifier = cellModifier
+            )
+        }
+
+        if (state.showPlacements) {
+            StandardBoardCell(
+                text = "${player.placement}",
+                modifier = cellModifier
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun PlayerScores(
+    player: Player,
+    modifier: Modifier = Modifier,
+    onInteraction: (GameInteraction) -> Unit = {}
+) {
+    player.scores.forEachIndexed { index, score ->
+        StandardBoardCell(
+            text = "$score",
+            modifier = modifier.combinedClickable(
+                onClick = { onInteraction(GameInteraction.EditScoreClicked(player, index)) },
+                onLongClick = { onInteraction(GameInteraction.DeleteScoreClicked(player, index)) }
+            )
+        )
+    }
 }
 
 @Preview
