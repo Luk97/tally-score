@@ -11,6 +11,7 @@ ksp = "1.9.0-1.0.12"
 room-database = "2.6.1"
 gson = "2.10.1"
 accomponist = "0.26.0-alpha"
+datastore-preferences = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -27,9 +28,10 @@ dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", ver
 dagger-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 room-database = { module = "androidx.room:room-runtime", version.ref = "room-database" }
 room-database-compiler = { module = "androidx.room:room-compiler", version.ref = "room-database" }
-room-database-ktx = { module = "androidx.room:room-ktx", version.ref = "room-database"}
+room-database-ktx = { module = "androidx.room:room-ktx", version.ref = "room-database" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
-accomponist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accomponist"}
+accomponist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accomponist" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
 
 [bundles]
 compose = [

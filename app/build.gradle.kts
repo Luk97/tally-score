@@ -70,4 +70,7 @@ dependencies {
     // room
     implementation(libs.bundles.room)
     ksp(libs.room.database.compiler)
+
+    // datastore preferences
+    implementation(libs.datastore.preferences)
 }
