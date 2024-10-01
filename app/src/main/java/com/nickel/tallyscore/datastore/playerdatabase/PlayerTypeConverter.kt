@@ -1,4 +1,4 @@
-package com.nickel.tallyscore.datastore
+package com.nickel.tallyscore.datastore.playerdatabase
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

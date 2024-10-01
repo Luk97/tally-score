@@ -3,7 +3,7 @@ package com.nickel.tallyscore.ui.game.topbar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.core.snackbar.SnackBarController
-import com.nickel.tallyscore.datastore.PlayerRepository
+import com.nickel.tallyscore.datastore.playerdatabase.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

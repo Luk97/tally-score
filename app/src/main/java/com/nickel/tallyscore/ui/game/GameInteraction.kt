@@ -18,4 +18,6 @@ sealed class GameInteraction {
     data class DeleteScoreClicked(val player: Player, val index: Int): GameInteraction()
 
     data object DialogDismissed: GameInteraction()
+
+    data class TestClicked(val testBoolean: Boolean): GameInteraction()
 }

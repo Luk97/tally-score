@@ -1,4 +1,4 @@
-package com.nickel.tallyscore.datastore
+package com.nickel.tallyscore.datastore.playerdatabase
 
 import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.utils.PlacementHelper

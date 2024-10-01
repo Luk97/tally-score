@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.data.Player
-import com.nickel.tallyscore.datastore.PlayerRepository
+import com.nickel.tallyscore.datastore.playerdatabase.PlayerRepository
+import com.nickel.tallyscore.datastore.preferences.UserPreferencesRepository
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.utils.toIntList
 import com.nickel.tallyscore.utils.toSafeInt
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameScreenViewModel @Inject constructor(
-    private val repository: PlayerRepository
+    private val repository: PlayerRepository,
+    private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(GameState())
@@ -26,8 +28,15 @@ class GameScreenViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.players.collectLatest { players ->
-                _state.update { it.copy(players = players) }
+            launch {
+                repository.players.collectLatest { players ->
+                    _state.update { it.copy(players = players) }
+                }
+            }
+            launch {
+                preferencesRepository.userPreferences.collectLatest { preferences ->
+                    _state.update { it.copy(preferences = preferences) }
+                }
             }
         }
     }
@@ -48,6 +57,14 @@ class GameScreenViewModel @Inject constructor(
             is GameInteraction.DeleteScoreClicked -> onDeleteScoreClicked(interaction.player, interaction.index)
 
             GameInteraction.DialogDismissed -> onDialogDismissed()
+
+            is GameInteraction.TestClicked -> testClicked(interaction.testBoolean)
+        }
+    }
+
+    private fun testClicked(testBoolean: Boolean) {
+        viewModelScope.launch {
+            preferencesRepository.updateTestBoolean(testBoolean)
         }
     }
 

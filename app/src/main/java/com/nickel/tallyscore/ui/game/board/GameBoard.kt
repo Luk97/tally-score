@@ -205,9 +205,11 @@ private fun PlayerColumn(
         modifier = modifier
     ) {
         StandardBoardCell(
-            text = player.name,
+            //text = player.name,
+            text = "${state.preferences.testBoolean}",
             modifier = cellModifier.combinedClickable(
-                onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
+                //onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
+                onClick = { onInteraction(GameInteraction.TestClicked(state.preferences.testBoolean)) },
                 onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
             )
         )
