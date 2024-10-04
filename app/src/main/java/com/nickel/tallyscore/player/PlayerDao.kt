@@ -1,10 +1,9 @@
-package com.nickel.tallyscore.datastore.playerdatabase
+package com.nickel.tallyscore.player
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
-import com.nickel.tallyscore.data.Player
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,19 +1,18 @@
-package com.nickel.tallyscore.datastore.preferences
+package com.nickel.tallyscore.preferences
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
-import com.nickel.tallyscore.data.UserPreferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
-    private object PreferencesKeys {
-        val KEY_TEST = booleanPreferencesKey("key_test")
+    private companion object PreferencesKeys {
+        val KEY_BOARD_SIZE = stringPreferencesKey("key_board_size")
     }
 
     val userPreferences = dataStore.data
@@ -25,15 +24,19 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
             }
         }
         .map { preferences ->
-            val newTest = preferences[PreferencesKeys.KEY_TEST] ?: false
             UserPreferences(
-                testBoolean = newTest
+                boardSize = getBoardSize(preferences)
             )
         }
 
-    suspend fun updateTestBoolean(testBoolean: Boolean) {
+    suspend fun updateBoardSize(boardSize: UserPreferences.BoardSize) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKeys.KEY_TEST] = !testBoolean
+            preferences[KEY_BOARD_SIZE] = boardSize.name
         }
     }
+
+    private fun getBoardSize(preferences: Preferences) =
+        preferences[KEY_BOARD_SIZE]?.let { value ->
+            UserPreferences.BoardSize.entries.first { it.name == value }
+        } ?: UserPreferences.BoardSize.MEDIUM
 }

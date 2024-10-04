@@ -3,7 +3,7 @@ package com.nickel.tallyscore.ui.game.topbar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.core.snackbar.SnackBarController
-import com.nickel.tallyscore.datastore.playerdatabase.PlayerRepository
+import com.nickel.tallyscore.player.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,6 +33,8 @@ class GameTopBarViewModel @Inject constructor(
             GameTopBarInteraction.MenuDismissed -> onMenuDismissed()
             GameTopBarInteraction.ResetPointsClicked -> onResetPointsClicked()
             GameTopBarInteraction.DeletePlayersClicked -> onDeleteAllPlayersClicked()
+            GameTopBarInteraction.SettingsClicked -> onSettingsClicked()
+            GameTopBarInteraction.SettingsDismissed -> onSettingsDismissed()
         }
     }
 
@@ -64,5 +66,13 @@ class GameTopBarViewModel @Inject constructor(
                 repository.updatePlayerList(players)
             }
         }
+    }
+
+    private fun onSettingsClicked() {
+        _state.update { it.copy(showMenu = false, showSettings = true) }
+    }
+
+    private fun onSettingsDismissed() {
+        _state.update { it.copy(showSettings = false) }
     }
 }

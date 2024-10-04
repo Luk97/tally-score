@@ -5,4 +5,6 @@ sealed class GameTopBarInteraction {
     data object MenuDismissed: GameTopBarInteraction()
     data object ResetPointsClicked: GameTopBarInteraction()
     data object DeletePlayersClicked: GameTopBarInteraction()
+    data object SettingsClicked: GameTopBarInteraction()
+    data object SettingsDismissed: GameTopBarInteraction()
 }

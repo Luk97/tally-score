@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Restore
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.ui.components.TallyScoreIconButton
 import com.nickel.tallyscore.ui.components.TallyScoreText
+import com.nickel.tallyscore.ui.dialogs.settings.SettingsDialog
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
@@ -63,6 +65,10 @@ private fun TopBarContent(
         },
         modifier = modifier
     )
+
+    if (state.showSettings) {
+        SettingsDialog(onDismiss = { onInteraction(GameTopBarInteraction.SettingsDismissed) })
+    }
 }
 
 @Composable
@@ -97,6 +103,21 @@ private fun MenuDropDown(
             leadingIcon = {
                 Icon(
                     imageVector = Icons.Default.DeleteForever,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        )
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        DropdownMenuItem(
+            text = { TallyScoreText("Settings") },
+            onClick = { onInteraction(GameTopBarInteraction.SettingsClicked) },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Settings,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface
                 )

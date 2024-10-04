@@ -22,10 +22,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.nickel.tallyscore.data.Player
+import androidx.compose.ui.unit.times
+import com.nickel.tallyscore.player.Player
+import com.nickel.tallyscore.preferences.UserPreferences.BoardSize
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
@@ -36,27 +38,30 @@ fun GameBoard(
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp
-    val columnWidth = remember(screenWidth) {
-        (screenWidth / 5).coerceAtLeast(64)
+    val cellWidth = remember(state.preferences.boardSize) {
+        when(state.preferences.boardSize) {
+            BoardSize.SMALL -> 64.dp
+            BoardSize.MEDIUM -> 96.dp
+            BoardSize.LARGE -> 128.dp
+        }
     }
-    val cellHeight = remember(columnWidth) { columnWidth / 2 }
-    val tableWidth = remember(state.players.size, columnWidth) {
-        state.players.size * columnWidth + columnWidth
+    val cellHeight = remember(cellWidth) { cellWidth / 2 }
+    val tableWidth = remember(state.players.size, cellWidth) {
+        state.players.size * cellWidth + cellWidth
     }
     val tableHeight = remember(state.columnItemCount, cellHeight) {
         state.columnItemCount * cellHeight
     }
     val cellModifier = Modifier.size(
-        width = columnWidth.dp,
-        height = cellHeight.dp
+        width = cellWidth,
+        height = cellHeight
     )
 
     Box(
         contentAlignment = Alignment.TopStart,
         modifier = modifier.size(
-            width = tableWidth.dp,
-            height = tableHeight.dp
+            width = tableWidth,
+            height = tableHeight
         )
     ) {
         GameBoardContent(
@@ -67,7 +72,7 @@ fun GameBoard(
 
         if (state.gameBoardVisible) {
             GameBoardDivider(
-                horizontalOffset = columnWidth,
+                horizontalOffset = cellWidth,
                 verticalOffset = cellHeight
             )
         }
@@ -115,19 +120,19 @@ fun GameBoardContent(
 
 @Composable
 fun GameBoardDivider(
-    horizontalOffset: Int,
-    verticalOffset: Int
+    horizontalOffset: Dp,
+    verticalOffset: Dp
 ) {
     VerticalDivider(
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier
-            .offset(x = horizontalOffset.dp)
+            .offset(x = horizontalOffset)
             .fillMaxSize()
     )
     HorizontalDivider(
         color = MaterialTheme.colorScheme.onBackground,
         modifier = Modifier
-            .offset(y = verticalOffset.dp)
+            .offset(y = verticalOffset)
             .fillMaxSize()
     )
 }
@@ -146,7 +151,8 @@ private fun HeaderColumn(
     ) {
         StandardBoardCell(
             text = "Turn",
-            modifier = cellModifier
+            modifier = cellModifier,
+            boardSize = state.preferences.boardSize
         )
 
         ScrollableHeaderColumn(
@@ -167,7 +173,8 @@ private fun ScrollableHeaderColumn(
         (1..state.turnCount).forEach {
             StandardBoardCell(
                 text = "$it",
-                modifier = cellModifier
+                modifier = cellModifier,
+                boardSize = state.preferences.boardSize
             )
         }
 
@@ -176,14 +183,16 @@ private fun ScrollableHeaderColumn(
         if (state.showTotals) {
             StandardBoardCell(
                 text = "Total",
-                modifier = cellModifier
+                modifier = cellModifier,
+                boardSize = state.preferences.boardSize
             )
         }
 
         if (state.showPlacements) {
             StandardBoardCell(
                 text = "Place",
-                modifier = cellModifier
+                modifier = cellModifier,
+                boardSize = state.preferences.boardSize
             )
         }
     }
@@ -205,13 +214,12 @@ private fun PlayerColumn(
         modifier = modifier
     ) {
         StandardBoardCell(
-            //text = player.name,
-            text = "${state.preferences.testBoolean}",
+            text = player.name,
             modifier = cellModifier.combinedClickable(
-                //onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
-                onClick = { onInteraction(GameInteraction.TestClicked(state.preferences.testBoolean)) },
+                onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
                 onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
-            )
+            ),
+            boardSize = state.preferences.boardSize
         )
 
         ScrollablePlayerColumn(
@@ -236,7 +244,8 @@ private fun ScrollablePlayerColumn(
         PlayerScores(
             player = player,
             onInteraction = onInteraction,
-            modifier = cellModifier
+            modifier = cellModifier,
+            boardSize = state.preferences.boardSize
         )
 
         AddScoreBoardCell(
@@ -252,14 +261,16 @@ private fun ScrollablePlayerColumn(
         if (state.showTotals) {
             StandardBoardCell(
                 text = "${player.totalScore}",
-                modifier = cellModifier
+                modifier = cellModifier,
+                boardSize = state.preferences.boardSize
             )
         }
 
         if (state.showPlacements) {
             StandardBoardCell(
                 text = "${player.placement}",
-                modifier = cellModifier
+                modifier = cellModifier,
+                boardSize = state.preferences.boardSize
             )
         }
     }
@@ -269,6 +280,7 @@ private fun ScrollablePlayerColumn(
 @Composable
 private fun PlayerScores(
     player: Player,
+    boardSize: BoardSize,
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
@@ -278,7 +290,8 @@ private fun PlayerScores(
             modifier = modifier.combinedClickable(
                 onClick = { onInteraction(GameInteraction.EditScoreClicked(player, index)) },
                 onLongClick = { onInteraction(GameInteraction.DeleteScoreClicked(player, index)) }
-            )
+            ),
+            boardSize = boardSize
         )
     }
 }

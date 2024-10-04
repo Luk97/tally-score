@@ -10,6 +10,7 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = Black,
     background = DarkGrey,
     onBackground = White,
+    surface = MediumGrey,
     surfaceContainer = MediumGrey,
     onSurface = White,
     onSurfaceVariant = White.copy(alpha = 0.5f),

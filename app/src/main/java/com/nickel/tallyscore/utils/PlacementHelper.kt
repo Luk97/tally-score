@@ -1,6 +1,6 @@
 package com.nickel.tallyscore.utils
 
-import com.nickel.tallyscore.data.Player
+import com.nickel.tallyscore.player.Player
 
 object PlacementHelper {
     fun calculatePlacementOrder(players: List<Player>): List<Int> {

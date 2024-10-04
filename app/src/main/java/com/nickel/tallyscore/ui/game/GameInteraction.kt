@@ -1,6 +1,6 @@
 package com.nickel.tallyscore.ui.game
 
-import com.nickel.tallyscore.data.Player
+import com.nickel.tallyscore.player.Player
 
 sealed class GameInteraction {
     data object AddPlayerClicked: GameInteraction()
@@ -18,6 +18,4 @@ sealed class GameInteraction {
     data class DeleteScoreClicked(val player: Player, val index: Int): GameInteraction()
 
     data object DialogDismissed: GameInteraction()
-
-    data class TestClicked(val testBoolean: Boolean): GameInteraction()
 }

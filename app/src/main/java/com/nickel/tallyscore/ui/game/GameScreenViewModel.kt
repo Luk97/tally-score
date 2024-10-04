@@ -3,9 +3,9 @@ package com.nickel.tallyscore.ui.game
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.core.snackbar.SnackBarController
-import com.nickel.tallyscore.data.Player
-import com.nickel.tallyscore.datastore.playerdatabase.PlayerRepository
-import com.nickel.tallyscore.datastore.preferences.UserPreferencesRepository
+import com.nickel.tallyscore.player.Player
+import com.nickel.tallyscore.player.PlayerRepository
+import com.nickel.tallyscore.preferences.UserPreferencesRepository
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.utils.toIntList
 import com.nickel.tallyscore.utils.toSafeInt
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GameScreenViewModel @Inject constructor(
-    private val repository: PlayerRepository,
+    private val playerRepository: PlayerRepository,
     private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
@@ -29,7 +29,7 @@ class GameScreenViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             launch {
-                repository.players.collectLatest { players ->
+                playerRepository.players.collectLatest { players ->
                     _state.update { it.copy(players = players) }
                 }
             }
@@ -41,30 +41,46 @@ class GameScreenViewModel @Inject constructor(
         }
     }
 
+
     fun onInteraction(interaction: GameInteraction) {
         when (interaction) {
             GameInteraction.AddPlayerClicked -> onAddPlayerClicked()
-            is GameInteraction.AddPlayerConfirmed -> onAddPlayerConfirmed(interaction.name, interaction.score)
+            is GameInteraction.AddPlayerConfirmed -> onAddPlayerConfirmed(
+                interaction.name,
+                interaction.score
+            )
+
             is GameInteraction.EditPlayerClicked -> onEditPlayerClicked(interaction.player)
-            is GameInteraction.EditPlayerConfirmed -> onEditPlayerConfirmed(interaction.player, interaction.name)
+            is GameInteraction.EditPlayerConfirmed -> onEditPlayerConfirmed(
+                interaction.player,
+                interaction.name
+            )
+
             is GameInteraction.DeletePlayerClicked -> onDeletePlayerClicked(interaction.player)
 
             is GameInteraction.AddScoreClicked -> onAddScoreClicked(interaction.player)
-            is GameInteraction.AddScoreConfirmed -> onAddScoreConfirmed(interaction.player, interaction.score)
+            is GameInteraction.AddScoreConfirmed -> onAddScoreConfirmed(
+                interaction.player,
+                interaction.score
+            )
 
-            is GameInteraction.EditScoreClicked -> onEditScoreClicked(interaction.player, interaction.index)
-            is GameInteraction.EditScoreConfirmed -> onEditScoreConfirmed(interaction.player, interaction.index, interaction.score)
-            is GameInteraction.DeleteScoreClicked -> onDeleteScoreClicked(interaction.player, interaction.index)
+            is GameInteraction.EditScoreClicked -> onEditScoreClicked(
+                interaction.player,
+                interaction.index
+            )
+
+            is GameInteraction.EditScoreConfirmed -> onEditScoreConfirmed(
+                interaction.player,
+                interaction.index,
+                interaction.score
+            )
+
+            is GameInteraction.DeleteScoreClicked -> onDeleteScoreClicked(
+                interaction.player,
+                interaction.index
+            )
 
             GameInteraction.DialogDismissed -> onDialogDismissed()
-
-            is GameInteraction.TestClicked -> testClicked(interaction.testBoolean)
-        }
-    }
-
-    private fun testClicked(testBoolean: Boolean) {
-        viewModelScope.launch {
-            preferencesRepository.updateTestBoolean(testBoolean)
         }
     }
 
@@ -82,12 +98,12 @@ class GameScreenViewModel @Inject constructor(
 
     private fun onDeletePlayerClicked(player: Player) {
         viewModelScope.launch {
-            repository.deletePlayer(player)
+            playerRepository.deletePlayer(player)
             SnackBarController.sendEvent(
                 message = "Player ${player.name} deleted",
                 actionLabel = "Undo"
             ) {
-                repository.upsertPlayer(player)
+                playerRepository.upsertPlayer(player)
             }
         }
         _state.update { it.copy(dialogState = DialogState.None) }
@@ -110,35 +126,35 @@ class GameScreenViewModel @Inject constructor(
 
     private fun onDeleteScoreClicked(player: Player, index: Int) {
         viewModelScope.launch {
-            repository.deletePlayerScore(player, index)
+            playerRepository.deletePlayerScore(player, index)
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 
     private fun onAddPlayerConfirmed(name: String, score: String) {
         viewModelScope.launch {
-            repository.upsertPlayer(Player(name = name, score.toIntList()))
+            playerRepository.upsertPlayer(Player(name = name, score.toIntList()))
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 
     private fun onEditPlayerConfirmed(player: Player, name: String) {
         viewModelScope.launch {
-            repository.upsertPlayer(player.copy(name = name))
+            playerRepository.upsertPlayer(player.copy(name = name))
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 
     private fun onAddScoreConfirmed(player: Player, score: String) {
         viewModelScope.launch {
-            repository.addPlayerScore(player, score.toSafeInt())
+            playerRepository.addPlayerScore(player, score.toSafeInt())
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }
 
     private fun onEditScoreConfirmed(player: Player, index: Int, score: String) {
         viewModelScope.launch {
-            repository.updatePlayerScore(player = player, index, score.toSafeInt())
+            playerRepository.updatePlayerScore(player = player, index, score.toSafeInt())
         }
         _state.update { it.copy(dialogState = DialogState.None) }
     }

@@ -1,6 +1,5 @@
-package com.nickel.tallyscore.datastore.playerdatabase
+package com.nickel.tallyscore.player
 
-import com.nickel.tallyscore.data.Player
 import com.nickel.tallyscore.utils.PlacementHelper
 import kotlinx.coroutines.flow.map
 

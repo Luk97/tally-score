@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.core.snackbar.ObserveAsEvents
 import com.nickel.tallyscore.core.snackbar.SnackBarController
-import com.nickel.tallyscore.data.Player
+import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.components.AddPlayerButton
 import com.nickel.tallyscore.ui.dialogs.AddPlayerDialog
 import com.nickel.tallyscore.ui.dialogs.AddScoreDialog
