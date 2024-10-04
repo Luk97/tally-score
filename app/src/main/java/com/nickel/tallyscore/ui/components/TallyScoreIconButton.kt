@@ -1,6 +1,7 @@
 package com.nickel.tallyscore.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -28,16 +29,14 @@ fun TallyScoreIconButton(
         onClick = onClick,
         enabled = enabled,
         modifier = modifier
-            .then(
-                Modifier
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary)
-            )
+            .clip(CircleShape)
+            .background(MaterialTheme.colorScheme.primary)
     ) {
         Icon(
             imageVector = imageVector,
             contentDescription = contentDescription,
-            tint = iconColor
+            tint = iconColor,
+            modifier = Modifier.fillMaxSize(0.9f)
         )
     }
 }

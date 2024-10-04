@@ -15,6 +15,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.NoiseControlOff
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.VerticalDivider
@@ -26,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.nickel.tallyscore.R
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.preferences.UserPreferences.BoardSize
 import com.nickel.tallyscore.ui.game.GameInteraction
@@ -60,8 +63,8 @@ fun GameBoard(
     Box(
         contentAlignment = Alignment.TopStart,
         modifier = modifier.size(
-            width = tableWidth,
-            height = tableHeight
+                width = tableWidth,
+                height = tableHeight
         )
     ) {
         GameBoardContent(
@@ -213,13 +216,16 @@ private fun PlayerColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        StandardBoardCell(
+        PlayerNameBoardCell(
             text = player.name,
             modifier = cellModifier.combinedClickable(
                 onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
                 onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
             ),
-            boardSize = state.preferences.boardSize
+            boardSize = state.preferences.boardSize,
+            imageRes = if (player.placement == 1) {
+                R.drawable.ic_crown
+            } else null
         )
 
         ScrollablePlayerColumn(
@@ -259,7 +265,7 @@ private fun ScrollablePlayerColumn(
         }
 
         if (state.showTotals) {
-            StandardBoardCell(
+            StatsBoardCell(
                 text = "${player.totalScore}",
                 modifier = cellModifier,
                 boardSize = state.preferences.boardSize
@@ -267,7 +273,7 @@ private fun ScrollablePlayerColumn(
         }
 
         if (state.showPlacements) {
-            StandardBoardCell(
+            StatsBoardCell(
                 text = "${player.placement}",
                 modifier = cellModifier,
                 boardSize = state.preferences.boardSize

@@ -3,6 +3,7 @@ package com.nickel.tallyscore.ui.dialogs.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.preferences.UserPreferences
+import com.nickel.tallyscore.preferences.UserPreferences.BoardSize
 import com.nickel.tallyscore.preferences.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,7 +28,7 @@ class SettingsViewModel @Inject constructor(
         initialValue = SettingsState.Loading
     )
 
-    fun onDisplaySizeClicked(boardSize: UserPreferences.BoardSize) {
+    fun onBoardSizeClicked(boardSize: BoardSize) {
         viewModelScope.launch {
             repository.updateBoardSize(boardSize)
         }

@@ -1,10 +1,11 @@
 package com.nickel.tallyscore.ui.dialogs.settings
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
@@ -19,6 +20,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.Role
@@ -43,7 +45,7 @@ fun SettingsDialog(
     SettingsDialog(
         state = state,
         onDismiss = onDismiss,
-        onDisplaySizeClicked = viewModel::onDisplaySizeClicked
+        onBoardSizeClicked = viewModel::onBoardSizeClicked
     )
 }
 
@@ -52,7 +54,7 @@ fun SettingsDialog(
 private fun SettingsDialog(
     state: SettingsState,
     onDismiss: () -> Unit = {},
-    onDisplaySizeClicked: (BoardSize) -> Unit = {}
+    onBoardSizeClicked: (BoardSize) -> Unit = {}
 ) {
     val configuration = LocalConfiguration.current
     BasicAlertDialog(
@@ -67,6 +69,7 @@ private fun SettingsDialog(
             contentColor = MaterialTheme.colorScheme.onSurface
         ) {
             Column(
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState())
@@ -88,7 +91,7 @@ private fun SettingsDialog(
 
                     is SettingsState.Success -> SettingsPanel(
                         settings = state.settings,
-                        onDisplaySizeClicked = onDisplaySizeClicked
+                        onBoardSizeClicked = onBoardSizeClicked
                     )
                 }
             }
@@ -100,30 +103,19 @@ private fun SettingsDialog(
 @Composable
 private fun SettingsPanel(
     settings: UserPreferences,
-    onDisplaySizeClicked: (BoardSize) -> Unit = {}
+    onBoardSizeClicked: (BoardSize) -> Unit = {}
 ) {
-    SettingsDialogSectionTitle("Display")
+    DialogSectionTitle("Board Size")
     Column(modifier = Modifier.selectableGroup()) {
-        SettingsDialogDisplayChooserRow(
-            text = "Small",
-            selected = settings.boardSize == BoardSize.SMALL,
-            onClick = { onDisplaySizeClicked(BoardSize.SMALL) }
-        )
-        SettingsDialogDisplayChooserRow(
-            text = "Medium",
-            selected = settings.boardSize == BoardSize.MEDIUM,
-            onClick = { onDisplaySizeClicked(BoardSize.MEDIUM) }
-        )
-        SettingsDialogDisplayChooserRow(
-            text = "Large",
-            selected = settings.boardSize == BoardSize.LARGE,
-            onClick = { onDisplaySizeClicked(BoardSize.LARGE) }
+        BoardSizeChooserRow(
+            boardSize = settings.boardSize,
+            onBoardSizeClicked = onBoardSizeClicked
         )
     }
 }
 
 @Composable
-private fun SettingsDialogSectionTitle(text: String) {
+private fun DialogSectionTitle(text: String) {
     TallyScoreText(
         text = text,
         textStyle = MaterialTheme.typography.titleMedium,
@@ -132,13 +124,45 @@ private fun SettingsDialogSectionTitle(text: String) {
 }
 
 @Composable
-private fun SettingsDialogDisplayChooserRow(
+private fun BoardSizeChooserRow(
+    boardSize: BoardSize,
+    onBoardSizeClicked: (BoardSize) -> Unit = {}
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        BoardSizeChooserOption(
+            text = "Small",
+            selected = boardSize == BoardSize.SMALL,
+            onClick = { onBoardSizeClicked(BoardSize.SMALL) }
+        )
+        BoardSizeChooserOption(
+            text = "Medium",
+            selected = boardSize == BoardSize.MEDIUM,
+            onClick = { onBoardSizeClicked(BoardSize.MEDIUM) }
+        )
+        BoardSizeChooserOption(
+            text = "Large",
+            selected = boardSize == BoardSize.LARGE,
+            onClick = { onBoardSizeClicked(BoardSize.LARGE) }
+        )
+
+    }
+}
+
+@Composable
+private fun RowScope.BoardSizeChooserOption(
     text: String,
     selected: Boolean,
     onClick: () -> Unit = {}
 ) {
-    Row(
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
         modifier = Modifier
+            .weight(1f)
             .selectable(
                 selected = selected,
                 role = Role.RadioButton,
@@ -149,10 +173,9 @@ private fun SettingsDialogDisplayChooserRow(
             selected = selected,
             onClick = null
         )
-        Spacer(Modifier.width(8.dp))
         TallyScoreText(
             text = text,
-            textStyle = MaterialTheme.typography.bodyLarge
+            textStyle = MaterialTheme.typography.bodyMedium
         )
     }
 }

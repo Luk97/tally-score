@@ -6,7 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import com.nickel.tallyscore.preferences.UserPreferences.BoardSize
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
@@ -17,7 +20,8 @@ fun TallyScoreText(
     textStyle: TextStyle = MaterialTheme.typography.bodyLarge,
     color: Color = MaterialTheme.colorScheme.onBackground,
     maxLines: Int = 1,
-    boardSize: BoardSize = BoardSize.MEDIUM
+    boardSize: BoardSize? = null,
+    fontWeight: FontWeight? = null
 ) {
     Text(
         text = text,
@@ -29,7 +33,10 @@ fun TallyScoreText(
             BoardSize.SMALL -> MaterialTheme.typography.bodySmall.fontSize
             BoardSize.MEDIUM -> MaterialTheme.typography.bodyMedium.fontSize
             BoardSize.LARGE -> MaterialTheme.typography.bodyLarge.fontSize
-        }
+            else -> TextUnit.Unspecified
+        },
+        fontWeight = fontWeight,
+        overflow = TextOverflow.Clip
     )
 }
 
