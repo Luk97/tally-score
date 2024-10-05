@@ -16,10 +16,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.nickel.tallyscore.R
 import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
@@ -46,7 +48,7 @@ fun AddPlayerDialog(
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             TallyScoreText(
-                text = "Add Player",
+                text = stringResource(R.string.add_player),
                 textStyle = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -59,8 +61,8 @@ fun AddPlayerDialog(
                         onInteraction(GameInteraction.AddPlayerConfirmed(localName, localScore))
                     }
                 },
-                label = "Name",
-                placeHolder = "Your name...",
+                label = stringResource(R.string.name),
+                placeHolder = stringResource(R.string.enter_name),
                 maxChars = TallyScoreConfig.PLAYER_NAME_MAX_CHARS,
                 requestFocus = true,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -73,8 +75,8 @@ fun AddPlayerDialog(
                         onInteraction(GameInteraction.AddPlayerConfirmed(localName, localScore))
                     }
                 },
-                label = "Score",
-                placeHolder = "Your score...",
+                label = stringResource(R.string.score),
+                placeHolder = stringResource(R.string.enter_score),
                 keyboardType = KeyboardType.Number,
                 maxChars = TallyScoreConfig.PLAYER_SCORE_MAX_CHARS,
                 modifier = Modifier.padding(16.dp)
@@ -85,7 +87,7 @@ fun AddPlayerDialog(
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 TallyScoreText(
-                    text = "Add Player",
+                    text = stringResource(R.string.add_player),
                     textStyle = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

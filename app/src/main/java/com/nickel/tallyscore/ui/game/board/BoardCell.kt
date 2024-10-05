@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,8 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -71,17 +69,16 @@ fun PlayerNameBoardCell(
             boardSize = boardSize
         )
         imageRes?.let {
-            //TODO: scale image and cut text properly
             Image(
                 painter = painterResource(imageRes),
                 contentDescription = null,
-                contentScale = ContentScale.FillHeight,
                 modifier = Modifier
-                    .size(
+                    .padding(start = 4.dp)
+                    .height(
                         when (boardSize) {
                             BoardSize.SMALL -> 24.dp
-                            BoardSize.MEDIUM -> 64.dp
-                            BoardSize.LARGE -> 32.dp
+                            BoardSize.MEDIUM -> 32.dp
+                            BoardSize.LARGE -> 48.dp
                         }
                     )
             )

@@ -19,9 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.nickel.tallyscore.R
 import com.nickel.tallyscore.ui.components.TallyScoreIconButton
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.dialogs.settings.SettingsDialog
@@ -46,7 +48,7 @@ private fun TopBarContent(
 ) {
     TopAppBar(
         title = {
-            Text("Tally Score")
+            Text(stringResource(R.string.app_name))
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -83,7 +85,7 @@ private fun MenuDropDown(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant)
     ) {
          DropdownMenuItem(
-            text = { TallyScoreText("Reset Points") },
+            text = { TallyScoreText(stringResource(R.string.reset_points)) },
             onClick = { onInteraction(GameTopBarInteraction.ResetPointsClicked) },
             leadingIcon = {
                 Icon(
@@ -98,7 +100,7 @@ private fun MenuDropDown(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         DropdownMenuItem(
-            text = { TallyScoreText("Delete all Players") },
+            text = { TallyScoreText(stringResource(R.string.delete_players)) },
             onClick = { onInteraction(GameTopBarInteraction.DeletePlayersClicked) },
             leadingIcon = {
                 Icon(
@@ -113,7 +115,7 @@ private fun MenuDropDown(
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         DropdownMenuItem(
-            text = { TallyScoreText("Settings") },
+            text = { TallyScoreText(stringResource(R.string.settings)) },
             onClick = { onInteraction(GameTopBarInteraction.SettingsClicked) },
             leadingIcon = {
                 Icon(

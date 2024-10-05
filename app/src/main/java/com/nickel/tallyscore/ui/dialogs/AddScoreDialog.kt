@@ -16,10 +16,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.nickel.tallyscore.R
 import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.components.TallyScoreText
@@ -47,7 +49,7 @@ fun AddScoreDialog(
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             TallyScoreText(
-                text = "Add Score",
+                text = stringResource(R.string.add_score),
                 textStyle = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -60,8 +62,8 @@ fun AddScoreDialog(
                         onInteraction(GameInteraction.AddScoreConfirmed(player, localScore))
                     }
                 },
-                label = "Score",
-                placeHolder = "Your score...",
+                label = stringResource(R.string.score),
+                placeHolder = stringResource(R.string.enter_score),
                 keyboardType = KeyboardType.Number,
                 maxChars = TallyScoreConfig.PLAYER_SCORE_MAX_CHARS,
                 requestFocus = true,
@@ -75,7 +77,7 @@ fun AddScoreDialog(
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 TallyScoreText(
-                    text = "Add Score",
+                    text = stringResource(R.string.add_score),
                     textStyle = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.onPrimary
                 )

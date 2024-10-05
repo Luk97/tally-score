@@ -2,6 +2,8 @@ package com.nickel.tallyscore.ui.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nickel.tallyscore.R
+import com.nickel.tallyscore.core.ContextProvider
 import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.player.PlayerRepository
@@ -99,9 +101,10 @@ class GameScreenViewModel @Inject constructor(
     private fun onDeletePlayerClicked(player: Player) {
         viewModelScope.launch {
             playerRepository.deletePlayer(player)
+            val context = ContextProvider.context
             SnackBarController.sendEvent(
-                message = "Player ${player.name} deleted",
-                actionLabel = "Undo"
+                message = context.getString(R.string.player_deleted, player.name),
+                actionLabel = context.getString(R.string.undo)
             ) {
                 playerRepository.upsertPlayer(player)
             }

@@ -22,10 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.nickel.tallyscore.R
 import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.components.TallyScoreIconButton
@@ -55,7 +57,7 @@ fun EditScoreDialog(
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             Text(
-                text = "Edit Score",
+                text = stringResource(R.string.edit_score),
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
@@ -67,8 +69,8 @@ fun EditScoreDialog(
                         onInteraction(GameInteraction.EditScoreConfirmed(player, scoreIndex, localScore))
                     }
                 },
-                label = "Score",
-                placeHolder = "Your score...",
+                label = stringResource(R.string.score),
+                placeHolder = stringResource(R.string.enter_score),
                 keyboardType = KeyboardType.Number,
                 maxChars = TallyScoreConfig.PLAYER_SCORE_MAX_CHARS,
                 requestFocus = true,
@@ -86,7 +88,7 @@ fun EditScoreDialog(
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     TallyScoreText(
-                        text = "Edit Score",
+                        text = stringResource(R.string.edit_score),
                         textStyle = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onPrimary
                     )

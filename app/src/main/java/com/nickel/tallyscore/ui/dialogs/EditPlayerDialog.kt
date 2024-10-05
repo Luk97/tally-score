@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.nickel.tallyscore.R
 import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.components.TallyScoreIconButton
@@ -51,7 +53,7 @@ fun EditPlayerDialog(
                 .background(MaterialTheme.colorScheme.surfaceContainer)
         ) {
             TallyScoreText(
-                text = "Edit Player",
+                text = stringResource(R.string.edit_player),
                 textStyle = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -64,8 +66,8 @@ fun EditPlayerDialog(
                         onInteraction(GameInteraction.EditPlayerConfirmed(player, localName))
                     }
                 },
-                label = "Player",
-                placeHolder = "Your name...",
+                label = stringResource(R.string.name),
+                placeHolder = stringResource(R.string.enter_name),
                 maxChars = TallyScoreConfig.PLAYER_NAME_MAX_CHARS,
                 requestFocus = true,
                 modifier = Modifier.padding(16.dp)
@@ -82,7 +84,7 @@ fun EditPlayerDialog(
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     TallyScoreText(
-                        text = "Edit Player",
+                        text = stringResource(R.string.edit_player),
                         textStyle = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onPrimary
                     )

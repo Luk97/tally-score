@@ -2,6 +2,8 @@ package com.nickel.tallyscore.ui.game.topbar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nickel.tallyscore.R
+import com.nickel.tallyscore.core.ContextProvider
 import com.nickel.tallyscore.core.snackbar.SnackBarController
 import com.nickel.tallyscore.player.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,8 +52,12 @@ class GameTopBarViewModel @Inject constructor(
         _state.update { it.copy(showMenu = false) }
         viewModelScope.launch {
             val players = _state.value.players
+            val context = ContextProvider.context
             repository.resetAllPlayerScores()
-            SnackBarController.sendEvent("All Player Scores reset", "Undo") {
+            SnackBarController.sendEvent(
+                message =  context.getString(R.string.all_scores_reset),
+                actionLabel =  context.getString(R.string.undo)
+            ) {
                repository.updatePlayerList(players)
             }
         }
@@ -61,8 +67,12 @@ class GameTopBarViewModel @Inject constructor(
         _state.update { it.copy(showMenu = false) }
         viewModelScope.launch {
             val players = _state.value.players
+            val context = ContextProvider.context
             repository.deleteAllPlayers()
-            SnackBarController.sendEvent("All Players Deleted", "Undo") {
+            SnackBarController.sendEvent(
+                message = context.getString(R.string.all_players_deleted),
+                actionLabel = context.getString(R.string.undo)
+            ) {
                 repository.updatePlayerList(players)
             }
         }

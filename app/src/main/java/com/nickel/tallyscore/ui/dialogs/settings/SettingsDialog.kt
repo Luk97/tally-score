@@ -23,12 +23,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nickel.tallyscore.R
 import com.nickel.tallyscore.preferences.UserPreferences
 import com.nickel.tallyscore.preferences.UserPreferences.BoardSize
 import com.nickel.tallyscore.ui.components.TallyScoreText
@@ -75,7 +77,7 @@ private fun SettingsDialog(
                     .verticalScroll(rememberScrollState())
             ) {
                 TallyScoreText(
-                    text = "Settings",
+                    text = stringResource(R.string.settings),
                     textStyle = MaterialTheme.typography.titleLarge
                 )
                 HorizontalDivider(
@@ -84,7 +86,7 @@ private fun SettingsDialog(
                 when (state) {
                     is SettingsState.Loading -> {
                         TallyScoreText(
-                            text = "Loading...",
+                            text = stringResource(R.string.loading),
                             modifier = Modifier.padding(top = 16.dp)
                         )
                     }
@@ -105,7 +107,7 @@ private fun SettingsPanel(
     settings: UserPreferences,
     onBoardSizeClicked: (BoardSize) -> Unit = {}
 ) {
-    DialogSectionTitle("Board Size")
+    DialogSectionTitle(stringResource(R.string.board_size))
     Column(modifier = Modifier.selectableGroup()) {
         BoardSizeChooserRow(
             boardSize = settings.boardSize,
@@ -134,17 +136,17 @@ private fun BoardSizeChooserRow(
         modifier = Modifier.fillMaxWidth()
     ) {
         BoardSizeChooserOption(
-            text = "Small",
+            text = stringResource(R.string.small),
             selected = boardSize == BoardSize.SMALL,
             onClick = { onBoardSizeClicked(BoardSize.SMALL) }
         )
         BoardSizeChooserOption(
-            text = "Medium",
+            text = stringResource(R.string.medium),
             selected = boardSize == BoardSize.MEDIUM,
             onClick = { onBoardSizeClicked(BoardSize.MEDIUM) }
         )
         BoardSizeChooserOption(
-            text = "Large",
+            text = stringResource(R.string.large),
             selected = boardSize == BoardSize.LARGE,
             onClick = { onBoardSizeClicked(BoardSize.LARGE) }
         )
