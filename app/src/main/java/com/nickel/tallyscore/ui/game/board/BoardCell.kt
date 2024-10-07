@@ -3,6 +3,7 @@ package com.nickel.tallyscore.ui.game.board
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -28,7 +29,9 @@ fun TextBoardCell(
     BoardCellContainer(zoomLevel, modifier) {
         TallyScoreText(
             text = text,
+            zoomLevel = zoomLevel,
             color = TallyScoreTheme.colorScheme.onBackground,
+            modifier = Modifier.padding(horizontal = 4.dp)
         )
     }
 }

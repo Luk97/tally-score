@@ -19,12 +19,13 @@ import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 fun TallyScoreText(
     text: String,
     modifier: Modifier = Modifier,
+    zoomLevel: Float = 1f,
     textStyle: TextStyle = TallyScoreTheme.typography.bodyLarge,
     color: Color = TallyScoreTheme.colorScheme.onBackground,
     maxLines: Int = 1,
     fontWeight: FontWeight? = null
 ) {
-    var fontSize by remember(text) { mutableStateOf(14.sp) }
+    var fontSize by remember(text, zoomLevel) { mutableStateOf(14.sp * zoomLevel) }
     Text(
         text = text,
         style = textStyle,
