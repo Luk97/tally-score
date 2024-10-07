@@ -15,7 +15,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,6 +27,29 @@ import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.preferences.UserPreferences.BoardSize
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.game.GameInteraction
+import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+
+@Composable
+fun BoardCell(
+    type: BoardCellType,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .clip(RoundedCornerShape(8.dp))
+            .then(modifier)
+    ) {
+        when (type) {
+            BoardCellType.SCORE -> ScoreBoardCell()
+        }
+    }
+}
+
+@Composable
+private fun ScoreBoardCell() {
+
+}
 
 @Composable
 fun StandardBoardCell(
@@ -43,7 +65,7 @@ fun StandardBoardCell(
     ) {
         TallyScoreText(
             text = text,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = TallyScoreTheme.colorScheme.onBackground,
             boardSize = boardSize
         )
     }
@@ -65,7 +87,7 @@ fun PlayerNameBoardCell(
     ) {
         TallyScoreText(
             text = text,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = TallyScoreTheme.colorScheme.onBackground,
             boardSize = boardSize
         )
         imageRes?.let {
@@ -100,7 +122,7 @@ fun StatsBoardCell(
     ) {
         TallyScoreText(
             text = text,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = TallyScoreTheme.colorScheme.onBackground,
             boardSize = boardSize,
             fontWeight = FontWeight.ExtraBold
         )
@@ -119,8 +141,8 @@ fun AddScoreBoardCell(
     ) {
         Surface(
             shape = CircleShape,
-            color = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            color = TallyScoreTheme.colorScheme.primary,
+            contentColor = TallyScoreTheme.colorScheme.onPrimary,
             modifier = Modifier
                 .fillMaxHeight(0.75f)
                 .aspectRatio(1f)

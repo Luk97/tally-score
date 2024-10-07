@@ -66,6 +66,7 @@ private fun GameScreen(
                 onAddPlayerClicked = { onInteraction(GameInteraction.AddPlayerClicked) }
             )
         },
+        containerColor = TallyScoreTheme.colorScheme.background,
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { innerPadding ->
         GameBoard(

@@ -11,7 +11,6 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -51,9 +50,9 @@ private fun TopBarContent(
             Text(stringResource(R.string.app_name))
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-            actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = TallyScoreTheme.colorScheme.primary,
+            titleContentColor = TallyScoreTheme.colorScheme.onPrimary,
+            actionIconContentColor = TallyScoreTheme.colorScheme.onPrimary
         ),
         actions = {
             TallyScoreIconButton(
@@ -81,8 +80,8 @@ private fun MenuDropDown(
     DropdownMenu(
         expanded = state.showMenu,
         onDismissRequest = { onInteraction(GameTopBarInteraction.MenuDismissed) },
-        containerColor = MaterialTheme.colorScheme.surfaceContainer,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant)
+        containerColor = TallyScoreTheme.colorScheme.surfaceContainer,
+        border = BorderStroke(1.dp, TallyScoreTheme.colorScheme.onSurfaceVariant)
     ) {
          DropdownMenuItem(
             text = { TallyScoreText(stringResource(R.string.reset_points)) },
@@ -91,13 +90,13 @@ private fun MenuDropDown(
                 Icon(
                     imageVector = Icons.Default.Restore,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = TallyScoreTheme.colorScheme.onSurface
                 )
             }
         )
         HorizontalDivider(
             thickness = 1.dp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = TallyScoreTheme.colorScheme.onSurfaceVariant
         )
         DropdownMenuItem(
             text = { TallyScoreText(stringResource(R.string.delete_players)) },
@@ -106,13 +105,13 @@ private fun MenuDropDown(
                 Icon(
                     imageVector = Icons.Default.DeleteForever,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = TallyScoreTheme.colorScheme.onSurface
                 )
             }
         )
         HorizontalDivider(
             thickness = 1.dp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            color = TallyScoreTheme.colorScheme.onSurfaceVariant
         )
         DropdownMenuItem(
             text = { TallyScoreText(stringResource(R.string.settings)) },
@@ -121,7 +120,7 @@ private fun MenuDropDown(
                 Icon(
                     imageVector = Icons.Default.Settings,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = TallyScoreTheme.colorScheme.onSurface
                 )
             }
         )

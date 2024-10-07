@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,7 +20,7 @@ fun TallyScoreIconButton(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
     contentDescription: String? = null,
-    iconColor: Color = MaterialTheme.colorScheme.onPrimary,
+    iconColor: Color = TallyScoreTheme.colorScheme.onPrimary,
     enabled: Boolean = true,
     onClick: () -> Unit = {}
 ) {
@@ -30,7 +29,7 @@ fun TallyScoreIconButton(
         enabled = enabled,
         modifier = modifier
             .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.primary)
+            .background(TallyScoreTheme.colorScheme.primary)
     ) {
         Icon(
             imageVector = imageVector,

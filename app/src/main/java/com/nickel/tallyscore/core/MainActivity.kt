@@ -4,9 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.nickel.tallyscore.ui.game.GameScreen
@@ -22,14 +23,19 @@ class MainActivity : ComponentActivity() {
             TallyScoreTheme {
                 val systemUiController = rememberSystemUiController()
                 systemUiController.setStatusBarColor(
-                    color = MaterialTheme.colorScheme.primary,
-                    darkIcons = true
+                    color = TallyScoreTheme.colorScheme.primary,
+                    darkIcons = isSystemInDarkTheme()
                 )
                 systemUiController.setNavigationBarColor(
-                    color = MaterialTheme.colorScheme.surfaceContainer,
+                    color = TallyScoreTheme.colorScheme.surfaceContainer,
                     darkIcons = false
                 )
-                Box(modifier = Modifier.systemBarsPadding()) {
+                Surface(
+                    color = TallyScoreTheme.colorScheme.background,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .systemBarsPadding()
+                ) {
                     GameScreen()
                 }
             }

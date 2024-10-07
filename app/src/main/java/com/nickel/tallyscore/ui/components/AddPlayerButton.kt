@@ -6,7 +6,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,8 +18,8 @@ fun AddPlayerButton(
 ) {
     FloatingActionButton(
         onClick = onAddPlayerClicked,
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
+        containerColor = TallyScoreTheme.colorScheme.primary,
+        contentColor = TallyScoreTheme.colorScheme.onPrimary,
         modifier = modifier
     ) {
         Icon(

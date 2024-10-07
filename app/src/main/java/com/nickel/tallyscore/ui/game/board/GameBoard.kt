@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -126,13 +125,13 @@ fun GameBoardDivider(
     verticalOffset: Dp
 ) {
     VerticalDivider(
-        color = MaterialTheme.colorScheme.onBackground,
+        color = TallyScoreTheme.colorScheme.onBackground,
         modifier = Modifier
             .offset(x = horizontalOffset)
             .fillMaxSize()
     )
     HorizontalDivider(
-        color = MaterialTheme.colorScheme.onBackground,
+        color = TallyScoreTheme.colorScheme.onBackground,
         modifier = Modifier
             .offset(y = verticalOffset)
             .fillMaxSize()

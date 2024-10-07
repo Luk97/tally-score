@@ -11,7 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -54,11 +54,11 @@ fun EditScoreDialog(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .background(TallyScoreTheme.colorScheme.surfaceContainer)
         ) {
             Text(
                 text = stringResource(R.string.edit_score),
-                color = MaterialTheme.colorScheme.onSurface,
+                color = TallyScoreTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
             TallyScoreTextField(
@@ -85,12 +85,16 @@ fun EditScoreDialog(
                 Button(
                     onClick = { onInteraction(GameInteraction.EditScoreConfirmed(player, scoreIndex, localScore)) },
                     enabled = InputValidator.isValidScore(localScore),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = TallyScoreTheme.colorScheme.primary,
+                        contentColor = TallyScoreTheme.colorScheme.onPrimary
+                    ),
                     modifier = Modifier.padding(bottom = 8.dp)
                 ) {
                     TallyScoreText(
                         text = stringResource(R.string.edit_score),
-                        textStyle = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        textStyle = TallyScoreTheme.typography.labelLarge,
+                        color = TallyScoreTheme.colorScheme.onPrimary
                     )
                 }
 
@@ -117,7 +121,7 @@ fun EditScoreDialog(
 private fun EditScoreDialogPreview() {
     TallyScoreTheme {
         EditScoreDialog(
-            player = Player("Lukas"),
+            player = Player("Lukas", listOf(10, 20)),
             scoreIndex = 0
         )
     }

@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,12 +46,12 @@ fun AddScoreDialog(
                 .fillMaxWidth()
                 .padding(16.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .background(TallyScoreTheme.colorScheme.surfaceContainer)
         ) {
             TallyScoreText(
                 text = stringResource(R.string.add_score),
-                textStyle = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+                textStyle = TallyScoreTheme.typography.titleLarge,
+                color = TallyScoreTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
             TallyScoreTextField(
@@ -74,12 +74,16 @@ fun AddScoreDialog(
                     onInteraction(GameInteraction.AddScoreConfirmed(player, localScore))
                 },
                 enabled = InputValidator.isValidScore(localScore),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = TallyScoreTheme.colorScheme.primary,
+                    contentColor = TallyScoreTheme.colorScheme.onPrimary
+                ),
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 TallyScoreText(
                     text = stringResource(R.string.add_score),
-                    textStyle = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    textStyle = TallyScoreTheme.typography.labelLarge,
+                    color = TallyScoreTheme.colorScheme.onPrimary
                 )
             }
         }

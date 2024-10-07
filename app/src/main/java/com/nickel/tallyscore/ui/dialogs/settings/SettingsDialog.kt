@@ -15,8 +15,8 @@ import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -67,8 +67,8 @@ private fun SettingsDialog(
         Surface(
             tonalElevation = AlertDialogDefaults.TonalElevation,
             shape = AlertDialogDefaults.shape,
-            color = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
+            color = TallyScoreTheme.colorScheme.surface,
+            contentColor = TallyScoreTheme.colorScheme.onSurface
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -78,10 +78,10 @@ private fun SettingsDialog(
             ) {
                 TallyScoreText(
                     text = stringResource(R.string.settings),
-                    textStyle = MaterialTheme.typography.titleLarge
+                    textStyle = TallyScoreTheme.typography.titleLarge
                 )
                 HorizontalDivider(
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = TallyScoreTheme.colorScheme.onSurface
                 )
                 when (state) {
                     is SettingsState.Loading -> {
@@ -120,7 +120,7 @@ private fun SettingsPanel(
 private fun DialogSectionTitle(text: String) {
     TallyScoreText(
         text = text,
-        textStyle = MaterialTheme.typography.titleMedium,
+        textStyle = TallyScoreTheme.typography.titleMedium,
         modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
     )
 }
@@ -173,11 +173,15 @@ private fun RowScope.BoardSizeChooserOption(
     ) {
         RadioButton(
             selected = selected,
-            onClick = null
+            onClick = null,
+            colors = RadioButtonDefaults.colors(
+                selectedColor = TallyScoreTheme.colorScheme.primary,
+                unselectedColor = TallyScoreTheme.colorScheme.onSurfaceVariant
+            )
         )
         TallyScoreText(
             text = text,
-            textStyle = MaterialTheme.typography.bodyMedium
+            textStyle = TallyScoreTheme.typography.bodyMedium
         )
     }
 }

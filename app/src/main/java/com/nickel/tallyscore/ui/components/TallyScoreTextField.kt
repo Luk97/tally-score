@@ -3,7 +3,6 @@ package com.nickel.tallyscore.ui.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -59,7 +58,10 @@ fun TallyScoreTextField(
         },
         value = textFieldValue,
         label = label?.let { { Text(it) } },
-        placeholder = placeHolder?.let { { Text(it) } },
+        placeholder = placeHolder?.let { { Text(
+            text = it,
+            color = TallyScoreTheme.colorScheme.onSurfaceVariant
+        ) } },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
             keyboardType = keyboardType,
@@ -69,19 +71,20 @@ fun TallyScoreTextField(
             onDone = { onDone() }
         ),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
-            focusedTextColor = MaterialTheme.colorScheme.onSurface,
-            unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            focusedIndicatorColor = MaterialTheme.colorScheme.primary,
-            unfocusedIndicatorColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            focusedLabelColor = MaterialTheme.colorScheme.primary,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+            focusedContainerColor = TallyScoreTheme.colorScheme.surfaceContainer,
+            unfocusedContainerColor = TallyScoreTheme.colorScheme.surfaceContainer,
+            focusedTextColor = TallyScoreTheme.colorScheme.onSurface,
+            unfocusedTextColor = TallyScoreTheme.colorScheme.onSurfaceVariant,
+            focusedIndicatorColor = TallyScoreTheme.colorScheme.primary,
+            unfocusedIndicatorColor = TallyScoreTheme.colorScheme.onSurfaceVariant,
+            focusedLabelColor = TallyScoreTheme.colorScheme.primary,
+            unfocusedLabelColor = TallyScoreTheme.colorScheme.onSurfaceVariant
         ),
         supportingText = maxChars?.let {
             {
                 Text(
                     text = "${text.length} / $maxChars",
+                    color = TallyScoreTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.End,
                 )
