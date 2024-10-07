@@ -5,14 +5,14 @@ import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.floatPreferencesKey
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
     private companion object PreferencesKeys {
-        val KEY_BOARD_SIZE = stringPreferencesKey("key_board_size")
+        val KEY_ZOOM_LEVEL = floatPreferencesKey("key_zoom_level")
     }
 
     val userPreferences = dataStore.data
@@ -25,18 +25,13 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
         }
         .map { preferences ->
             UserPreferences(
-                boardSize = getBoardSize(preferences)
+                zoomLevel = preferences[KEY_ZOOM_LEVEL] ?: 1f
             )
         }
 
-    suspend fun updateBoardSize(boardSize: UserPreferences.BoardSize) {
+    suspend fun updateZoomLevel(zoomLevel: Float) {
         dataStore.edit { preferences ->
-            preferences[KEY_BOARD_SIZE] = boardSize.name
+            preferences[KEY_ZOOM_LEVEL] = zoomLevel
         }
     }
-
-    private fun getBoardSize(preferences: Preferences) =
-        preferences[KEY_BOARD_SIZE]?.let { value ->
-            UserPreferences.BoardSize.entries.first { it.name == value }
-        } ?: UserPreferences.BoardSize.MEDIUM
 }

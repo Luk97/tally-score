@@ -7,10 +7,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -18,19 +17,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.nickel.tallyscore.R
 import com.nickel.tallyscore.player.Player
-import com.nickel.tallyscore.preferences.UserPreferences.BoardSize
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState
+import com.nickel.tallyscore.ui.theme.Dimensions
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
@@ -39,66 +36,29 @@ fun GameBoard(
     modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
-    val cellWidth = remember(state.preferences.boardSize) {
-        when(state.preferences.boardSize) {
-            BoardSize.SMALL -> 100.dp
-            BoardSize.MEDIUM -> 150.dp
-            BoardSize.LARGE -> 200.dp
-        }
-    }
-    val cellHeight = remember(cellWidth) { cellWidth / 2 }
-    val tableWidth = remember(state.players.size, cellWidth) {
-        state.players.size * cellWidth + cellWidth
-    }
-    val tableHeight = remember(state.columnItemCount, cellHeight) {
-        state.columnItemCount * cellHeight
-    }
-    val cellModifier = Modifier.size(
-        width = cellWidth,
-        height = cellHeight
-    )
-
     Box(
         contentAlignment = Alignment.TopStart,
-        modifier = modifier.size(
-                width = tableWidth,
-                height = tableHeight
-        )
+        modifier = modifier
     ) {
-        GameBoardContent(
-            state = state,
-            cellModifier = cellModifier,
-            onInteraction = onInteraction
-        )
-
-        if (state.gameBoardVisible) {
-            GameBoardDivider(
-                horizontalOffset = cellWidth,
-                verticalOffset = cellHeight
-            )
-        }
+        GameBoardContent(state, onInteraction)
+        GameBoardDivider(state)
     }
 }
 
 @Composable
 fun GameBoardContent(
     state: GameState,
-    modifier: Modifier = Modifier,
-    cellModifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
-    val verticalScrollState = rememberScrollState()
-
+    val scrollState = rememberScrollState()
     Row(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.Start,
-        modifier = modifier
     ) {
         if (state.gameBoardVisible) {
             HeaderColumn(
                 state = state,
-                verticalScrollState = verticalScrollState,
-                cellModifier = cellModifier
+                scrollState = scrollState
             )
         }
 
@@ -110,8 +70,7 @@ fun GameBoardContent(
                 PlayerColumn(
                     state = state,
                     player = player,
-                    verticalScrollState = verticalScrollState,
-                    cellModifier = cellModifier,
+                    scrollState = scrollState,
                     onInteraction = onInteraction
                 )
             }
@@ -120,46 +79,22 @@ fun GameBoardContent(
 }
 
 @Composable
-fun GameBoardDivider(
-    horizontalOffset: Dp,
-    verticalOffset: Dp
-) {
-    VerticalDivider(
-        color = TallyScoreTheme.colorScheme.onBackground,
-        modifier = Modifier
-            .offset(x = horizontalOffset)
-            .fillMaxSize()
-    )
-    HorizontalDivider(
-        color = TallyScoreTheme.colorScheme.onBackground,
-        modifier = Modifier
-            .offset(y = verticalOffset)
-            .fillMaxSize()
-    )
-}
-
-@Composable
 private fun HeaderColumn(
     state: GameState,
-    verticalScrollState: ScrollState,
-    modifier: Modifier = Modifier,
-    cellModifier: Modifier = Modifier
+    scrollState: ScrollState,
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
     ) {
-        StandardBoardCell(
+        TextBoardCell(
             text = stringResource(R.string.turn),
-            modifier = cellModifier,
-            boardSize = state.preferences.boardSize
+            zoomLevel = state.preferences.zoomLevel
         )
 
         ScrollableHeaderColumn(
             state = state,
-            Modifier.verticalScroll(verticalScrollState),
-            cellModifier = cellModifier
+            modifier = Modifier.verticalScroll(scrollState)
         )
     }
 }
@@ -167,33 +102,29 @@ private fun HeaderColumn(
 @Composable
 private fun ScrollableHeaderColumn(
     state: GameState,
-    modifier: Modifier = Modifier,
-    cellModifier: Modifier = Modifier
+    modifier: Modifier,
 ) {
     Column(modifier = modifier) {
         (1..state.turnCount).forEach {
-            StandardBoardCell(
+            TextBoardCell(
                 text = "$it",
-                modifier = cellModifier,
-                boardSize = state.preferences.boardSize
+                zoomLevel =  state.preferences.zoomLevel
             )
         }
 
-        Spacer(cellModifier)
+        EmptyBoardCell(state.preferences.zoomLevel)
 
         if (state.showTotals) {
-            StandardBoardCell(
+            TextBoardCell(
                 text = stringResource(R.string.total),
-                modifier = cellModifier,
-                boardSize = state.preferences.boardSize
+                zoomLevel = state.preferences.zoomLevel
             )
         }
 
         if (state.showPlacements) {
-            StandardBoardCell(
+            TextBoardCell(
                 text = stringResource(R.string.placement),
-                modifier = cellModifier,
-                boardSize = state.preferences.boardSize
+                zoomLevel = state.preferences.zoomLevel
             )
         }
     }
@@ -204,34 +135,27 @@ private fun ScrollableHeaderColumn(
 private fun PlayerColumn(
     state: GameState,
     player: Player,
-    verticalScrollState: ScrollState,
-    modifier: Modifier = Modifier,
-    cellModifier: Modifier = Modifier,
+    scrollState: ScrollState,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
     ) {
-        PlayerNameBoardCell(
+        TextBoardCell(
             text = player.name,
-            modifier = cellModifier.combinedClickable(
+            zoomLevel = state.preferences.zoomLevel,
+            modifier = Modifier.combinedClickable(
                 onClick = { onInteraction(GameInteraction.EditPlayerClicked(player)) },
                 onLongClick = { onInteraction(GameInteraction.DeletePlayerClicked(player)) }
-            ),
-            boardSize = state.preferences.boardSize,
-            imageRes = if (player.placement == 1) {
-                R.drawable.ic_crown
-            } else null
+            )
         )
 
         ScrollablePlayerColumn(
             state = state,
             player = player,
             onInteraction = onInteraction,
-            modifier = Modifier.verticalScroll(verticalScrollState),
-            cellModifier = cellModifier
+            modifier = Modifier.verticalScroll(scrollState)
         )
     }
 }
@@ -241,40 +165,36 @@ private fun ScrollablePlayerColumn(
     state: GameState,
     player: Player,
     modifier: Modifier = Modifier,
-    cellModifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
     Column(modifier = modifier) {
         PlayerScores(
             player = player,
+            zoomLevel = state.preferences.zoomLevel,
             onInteraction = onInteraction,
-            modifier = cellModifier,
-            boardSize = state.preferences.boardSize
         )
 
         AddScoreBoardCell(
             player = player,
+            zoomLevel = state.preferences.zoomLevel,
             onInteraction = onInteraction,
-            modifier = cellModifier
         )
 
         repeat(player.missingTurns) {
-            Spacer(cellModifier)
+            EmptyBoardCell(state.preferences.zoomLevel)
         }
 
         if (state.showTotals) {
-            StatsBoardCell(
+            TextBoardCell(
                 text = "${player.totalScore}",
-                modifier = cellModifier,
-                boardSize = state.preferences.boardSize
+                zoomLevel = state.preferences.zoomLevel
             )
         }
 
         if (state.showPlacements) {
-            StatsBoardCell(
+            TextBoardCell(
                 text = "${player.placement}",
-                modifier = cellModifier,
-                boardSize = state.preferences.boardSize
+                zoomLevel = state.preferences.zoomLevel
             )
         }
     }
@@ -284,20 +204,37 @@ private fun ScrollablePlayerColumn(
 @Composable
 private fun PlayerScores(
     player: Player,
-    boardSize: BoardSize,
-    modifier: Modifier = Modifier,
+    zoomLevel: Float,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
     player.scores.forEachIndexed { index, score ->
-        StandardBoardCell(
+        TextBoardCell(
             text = "$score",
-            modifier = modifier.combinedClickable(
+            zoomLevel = zoomLevel,
+            modifier = Modifier.combinedClickable(
                 onClick = { onInteraction(GameInteraction.EditScoreClicked(player, index)) },
                 onLongClick = { onInteraction(GameInteraction.DeleteScoreClicked(player, index)) }
-            ),
-            boardSize = boardSize
+            )
         )
     }
+}
+
+@Composable
+private fun GameBoardDivider(
+    state: GameState
+) {
+    VerticalDivider(
+        color = TallyScoreTheme.colorScheme.onBackground,
+        modifier = Modifier
+            .offset(x = Dimensions.CELL_WIDTH.dp * state.preferences.zoomLevel)
+            .height(state.verticalItemCount * Dimensions.CELL_HEIGHT.dp * state.preferences.zoomLevel)
+    )
+    HorizontalDivider(
+        color = TallyScoreTheme.colorScheme.onBackground,
+        modifier = Modifier
+            .offset(y = Dimensions.CELL_HEIGHT.dp * state.preferences.zoomLevel)
+            .width(state.horizontalItemCount * Dimensions.CELL_WIDTH.dp * state.preferences.zoomLevel)
+    )
 }
 
 @Preview

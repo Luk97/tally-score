@@ -1,5 +1,6 @@
 package com.nickel.tallyscore.ui.game
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -12,11 +13,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.core.snackbar.ObserveAsEvents
 import com.nickel.tallyscore.core.snackbar.SnackBarController
-import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.components.AddPlayerButton
 import com.nickel.tallyscore.ui.dialogs.AddPlayerDialog
 import com.nickel.tallyscore.ui.dialogs.AddScoreDialog
@@ -72,7 +71,9 @@ private fun GameScreen(
         GameBoard(
             state = state,
             onInteraction = onInteraction,
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
         )
 
         GameDialogs(
@@ -105,46 +106,5 @@ private fun GameDialogs(
             onInteraction = onInteraction
         )
         else -> {}
-    }
-}
-
-@Preview(showSystemUi = true)
-@Composable
-private fun GameScreenPreview() {
-    TallyScoreTheme {
-        GameScreen(
-            state = GameState(
-                players = listOf(
-                    Player(
-                        name = "Lukas",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Linda",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Maria",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Anne",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Peter",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Peter",
-                        scores = listOf(10, 30, 20, 20)
-                    ),
-                    Player(
-                        name = "Peter",
-                        scores = listOf(10, 30, 20, 20)
-                    )
-                )
-            )
-        )
     }
 }

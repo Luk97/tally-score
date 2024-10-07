@@ -22,11 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.nickel.tallyscore.R
-import com.nickel.tallyscore.core.TallyScoreConfig
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
+import com.nickel.tallyscore.ui.theme.Dimensions
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 import com.nickel.tallyscore.utils.InputValidator
 import com.nickel.tallyscore.utils.handlePotentialMissingComma
@@ -65,7 +65,7 @@ fun AddScoreDialog(
                 label = stringResource(R.string.score),
                 placeHolder = stringResource(R.string.enter_score),
                 keyboardType = KeyboardType.Number,
-                maxChars = TallyScoreConfig.PLAYER_SCORE_MAX_CHARS,
+                maxChars = Dimensions.PLAYER_SCORE_MAX_CHARS,
                 requestFocus = true,
                 modifier = Modifier.padding(16.dp)
             )

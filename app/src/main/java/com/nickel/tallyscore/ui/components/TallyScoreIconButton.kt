@@ -27,9 +27,10 @@ fun TallyScoreIconButton(
     IconButton(
         onClick = onClick,
         enabled = enabled,
-        modifier = modifier
+        modifier = Modifier
             .clip(CircleShape)
             .background(TallyScoreTheme.colorScheme.primary)
+            .then(modifier)
     ) {
         Icon(
             imageVector = imageVector,

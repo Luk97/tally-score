@@ -21,7 +21,10 @@ data class GameState(
     val showPlacements: Boolean
         get() = gameBoardVisible
 
-    val columnItemCount: Int
+    val horizontalItemCount: Int
+        get() = players.size + 1
+
+    val verticalItemCount: Int
         get() = listOf(showTotals, showPlacements).count { it } + turnCount + 2
 
     sealed class DialogState {
