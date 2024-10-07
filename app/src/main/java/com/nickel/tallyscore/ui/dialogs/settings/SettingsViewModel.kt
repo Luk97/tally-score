@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.preferences.UserPreferences
 import com.nickel.tallyscore.preferences.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -17,18 +18,18 @@ class SettingsViewModel @Inject constructor(
     private val repository: UserPreferencesRepository
 ): ViewModel() {
 
-    val settingsState: StateFlow<SettingsState> = repository.userPreferences.map { preferences ->
-        SettingsState.Success(
-            settings = preferences
+    val settingsState: StateFlow<SettingsState> = repository.userPreferences
+        .map { preferences ->
+            SettingsState.Success(settings = preferences)
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000L),
+            initialValue = SettingsState.Loading
         )
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = SettingsState.Loading
-    )
 
-    fun onZoomLevelChosen(zoomLevel: Float) {
-        viewModelScope.launch {
+    fun onZoomLevelChanged(zoomLevel: Float) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.updateZoomLevel(zoomLevel)
         }
     }

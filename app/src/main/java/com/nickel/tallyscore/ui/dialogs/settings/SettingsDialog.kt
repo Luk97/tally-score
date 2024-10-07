@@ -40,7 +40,7 @@ fun SettingsDialog(
     SettingsDialog(
         state = state,
         onDismiss = onDismiss,
-        onZoomLevelChanged = viewModel::onZoomLevelChosen
+        onZoomLevelChanged = viewModel::onZoomLevelChanged
     )
 }
 
