@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="all_scores_reset">Alle Punkte zurückgesetzt</string>
+    <string name="app_name">Tally Score</string>
+    <string name="reset_points">Punkte zurücksetzen</string>
+    <string name="delete_players">Alle Spieler löschen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="undo">Undo</string>
+    <string name="all_players_deleted">Alle Spieler gelöscht</string>
+    <string name="player_deleted">Spieler <xliff:g name="name" example="Joe">%s</xliff:g> gelöscht</string>
+    <string name="turn">Runde</string>
+    <string name="total">Gesamt</string>
+    <string name="placement">Platz</string>
+    <string name="loading">Laden…</string>
+    <string name="board_size">Brett Größe</string>
+    <string name="small">Klein</string>
+    <string name="medium">Mittel</string>
+    <string name="large">Groß</string>
+    <string name="add_player">Spieler hinzufügen</string>
+    <string name="name">Name</string>
+    <string name="enter_name">Namen eingeben</string>
+    <string name="score">Punkte</string>
+    <string name="enter_score">Punkte eingeben</string>
+    <string name="add_score">Punkte hinzufügen</string>
+    <string name="edit_player">Spieler bearbeiten</string>
+    <string name="edit_score">Punkte bearbeiten</string>
+</resources>

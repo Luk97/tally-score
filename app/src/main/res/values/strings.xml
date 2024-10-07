@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="all_scores_reset">All Scores reset</string>
     <string name="app_name">Tally Score</string>
     <string name="reset_points">Reset Points</string>
@@ -6,7 +6,7 @@
     <string name="settings">Settings</string>
     <string name="undo">Undo</string>
     <string name="all_players_deleted">All Players deleted</string>
-    <string name="player_deleted">Player %1$s deleted</string>
+    <string name="player_deleted">Player <xliff:g name="name" example="Joe">%s</xliff:g> deleted</string>
     <string name="turn">Turn</string>
     <string name="total">Total</string>
     <string name="placement">Place</string>
