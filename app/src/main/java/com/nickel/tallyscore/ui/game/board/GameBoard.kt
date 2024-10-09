@@ -34,8 +34,8 @@ import com.nickel.tallyscore.R
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState
-import com.nickel.tallyscore.ui.theme.Dimensions
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.ui.theme.localcompositionprovider.LocalDimensions
 
 @Composable
 internal fun GameBoard(
@@ -240,17 +240,20 @@ private fun PlayerScores(
 
 @Composable
 private fun GameBoardDivider(state: GameState) {
+    val dimensions = LocalDimensions.current
+    val cellWidth = dimensions.cellWidth * state.preferences.zoomLevel
+    val cellHeight = dimensions.cellHeight * state.preferences.zoomLevel
     VerticalDivider(
         color = TallyScoreTheme.colorScheme.border,
         modifier = Modifier
-            .offset(x = Dimensions.CELL_WIDTH.dp * state.preferences.zoomLevel)
-            .height(state.verticalItemCount * Dimensions.CELL_HEIGHT.dp * state.preferences.zoomLevel)
+            .offset(x = cellWidth)
+            .height(state.verticalItemCount * cellHeight)
     )
     HorizontalDivider(
         color = TallyScoreTheme.colorScheme.border,
         modifier = Modifier
-            .offset(y = Dimensions.CELL_HEIGHT.dp * state.preferences.zoomLevel)
-            .width(state.horizontalItemCount * Dimensions.CELL_WIDTH.dp * state.preferences.zoomLevel)
+            .offset(y = cellHeight)
+            .width(state.horizontalItemCount * cellWidth)
     )
 }
 

@@ -17,8 +17,8 @@ import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.components.TallyScoreIconButton
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.game.GameInteraction
-import com.nickel.tallyscore.ui.theme.Dimensions
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.ui.theme.localcompositionprovider.LocalDimensions
 
 @Composable
 internal fun TextBoardCell(
@@ -65,12 +65,13 @@ private fun BoardCellContainer(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
+    val dimensions = LocalDimensions.current
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .size(
-                width = Dimensions.CELL_WIDTH.dp * zoomLevel,
-                height = Dimensions.CELL_HEIGHT.dp * zoomLevel
+                width = dimensions.cellWidth * zoomLevel,
+                height = dimensions.cellHeight * zoomLevel
             )
             .padding(4.dp)
             .clip(RoundedCornerShape(8.dp))
