@@ -7,7 +7,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-internal data class Dimensions(
+val LocalDimensions = staticCompositionLocalOf { Dimensions.default }
+
+data class Dimensions(
     val cellWidth: Dp,
     val cellHeight: Dp
 ) {
@@ -18,10 +20,8 @@ internal data class Dimensions(
     }
 }
 
-internal val LocalDimensions = staticCompositionLocalOf { Dimensions.default }
-
 @Composable
-internal fun calculateDimensions(): Dimensions {
+internal fun getDimensions(): Dimensions {
     val boardPadding = 32
     val availableWidth = LocalConfiguration.current.screenWidthDp - boardPadding
 
