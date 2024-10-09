@@ -15,7 +15,7 @@ import com.nickel.tallyscore.design.localcomposistions.AppTheme
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
-class PreferencesDatastoreProvider: PreferenceProvider {
+internal class PreferencesDatastoreProvider: PreferenceProvider {
 
     private val dataStore: DataStore<Preferences> = PreferenceDataStoreFactory.create(
         produceFile = { ContextProvider.context.preferencesDataStoreFile(USER_PREFERENCES_NAME) },

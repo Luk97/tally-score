@@ -3,7 +3,7 @@ package com.nickel.tallyscore.persistence.preferences
 import com.nickel.tallyscore.design.localcomposistions.AppTheme
 import kotlinx.coroutines.flow.Flow
 
-interface PreferenceProvider {
+internal interface PreferenceProvider {
 
     val userPreferences: Flow<UserPreferences>
 

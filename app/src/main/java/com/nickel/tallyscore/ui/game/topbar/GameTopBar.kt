@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.R
 import com.nickel.tallyscore.design.components.TallyScoreIconButton
 import com.nickel.tallyscore.design.components.TallyScoreText
-import com.nickel.tallyscore.ui.dialogs.settings.SettingsDialog
+import com.nickel.tallyscore.settings.SettingsDialog
 import com.nickel.tallyscore.design.TallyScoreTheme
 
 @Composable

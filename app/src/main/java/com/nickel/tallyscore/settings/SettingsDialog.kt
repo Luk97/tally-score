@@ -1,4 +1,4 @@
-package com.nickel.tallyscore.ui.dialogs.settings
+package com.nickel.tallyscore.settings
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ import com.nickel.tallyscore.R
 import com.nickel.tallyscore.design.TallyScoreTheme
 import com.nickel.tallyscore.design.components.TallyScoreText
 import com.nickel.tallyscore.persistence.preferences.UserPreferences
-import com.nickel.tallyscore.ui.dialogs.settings.SettingsViewModel.SettingsState
+import com.nickel.tallyscore.settings.SettingsViewModel.SettingsState
 
 @Composable
 internal fun SettingsDialog(

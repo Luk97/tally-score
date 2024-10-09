@@ -15,7 +15,7 @@ import javax.inject.Singleton
 object PersistenceModule {
     @Provides
     @Singleton
-    fun providePlayerDatabase(app: Application): PlayerDatabase = Room
+    internal fun providePlayerDatabase(app: Application): PlayerDatabase = Room
         .databaseBuilder(app, PlayerDatabase::class.java, "player_db")
         .fallbackToDestructiveMigration()
         .build()

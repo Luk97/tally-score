@@ -1,6 +1,6 @@
 package com.nickel.tallyscore.persistence.player
 
-object PlacementHelper {
+internal object PlacementHelper {
     fun calculatePlacementOrder(players: List<Player>): List<Int> {
         val sortedPlayers = players.sortedByDescending { it.totalScore }
         val placements = mutableMapOf<Player, Int>()

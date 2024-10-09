@@ -1,4 +1,4 @@
-package com.nickel.tallyscore.ui.dialogs.settings
+package com.nickel.tallyscore.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
