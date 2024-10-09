@@ -1,14 +1,14 @@
-package com.nickel.tallyscore.ui.theme
+package com.nickel.tallyscore
 
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
-import com.nickel.colorscheme.TallyScoreColorScheme
-import com.nickel.localcomposistions.LocalAppTheme
-import com.nickel.localcomposistions.LocalColorScheme
-import com.nickel.localcomposistions.LocalTypography
-import com.nickel.localcomposistions.getAppTheme
+import com.nickel.tallyscore.colorscheme.TallyScoreColorScheme
+import com.nickel.tallyscore.localcomposistions.LocalAppTheme
+import com.nickel.tallyscore.localcomposistions.LocalColorScheme
+import com.nickel.tallyscore.localcomposistions.LocalTypography
+import com.nickel.tallyscore.localcomposistions.getAppTheme
 import com.nickel.tallyscore.ui.theme.localcompositionprovider.LocalDimensions
 import com.nickel.tallyscore.ui.theme.localcompositionprovider.getDimensions
 

@@ -1,8 +1,8 @@
-package com.nickel.colorscheme
+package com.nickel.tallyscore.colorscheme
 
 import androidx.compose.ui.graphics.Color
 
-internal object LightColorScheme: TallyScoreColorScheme {
+internal object DarkColorScheme: TallyScoreColorScheme {
     override val primary: Color = Pink
     override val onPrimary: Color = Black
     override val background: Color = DarkGrey

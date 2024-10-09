@@ -16,7 +16,8 @@ data class Dimensions(
     companion object {
         val default = Dimensions(
             cellWidth = 96.dp,
-            cellHeight = 32.dp)
+            cellHeight = 32.dp
+        )
     }
 }
 

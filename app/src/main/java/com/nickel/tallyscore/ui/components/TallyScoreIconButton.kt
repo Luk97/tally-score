@@ -13,7 +13,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.TallyScoreTheme
 
 @Composable
 fun TallyScoreIconButton(

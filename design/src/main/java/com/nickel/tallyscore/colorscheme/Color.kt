@@ -1,4 +1,4 @@
-package com.nickel.colorscheme
+package com.nickel.tallyscore.colorscheme
 
 import androidx.compose.ui.graphics.Color
 

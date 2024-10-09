@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.TallyScoreTheme
 
 @Composable
 fun TallyScoreTextField(

@@ -1,10 +1,10 @@
-package com.nickel.localcomposistions
+package com.nickel.tallyscore.localcomposistions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
-import com.nickel.colorscheme.DarkColorScheme
-import com.nickel.colorscheme.LightColorScheme
-import com.nickel.colorscheme.TallyScoreColorScheme
+import com.nickel.tallyscore.colorscheme.DarkColorScheme
+import com.nickel.tallyscore.colorscheme.LightColorScheme
+import com.nickel.tallyscore.colorscheme.TallyScoreColorScheme
 
 internal val LocalColorScheme = staticCompositionLocalOf<TallyScoreColorScheme> { LightColorScheme }
 

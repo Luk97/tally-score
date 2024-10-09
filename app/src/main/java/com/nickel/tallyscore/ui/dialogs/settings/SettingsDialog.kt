@@ -28,7 +28,7 @@ import com.nickel.tallyscore.R
 import com.nickel.tallyscore.preferences.UserPreferences
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.dialogs.settings.SettingsViewModel.SettingsState
-import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.TallyScoreTheme
 
 @Composable
 internal fun SettingsDialog(

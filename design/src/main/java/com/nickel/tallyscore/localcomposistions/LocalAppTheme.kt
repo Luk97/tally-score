@@ -1,4 +1,4 @@
-package com.nickel.localcomposistions
+package com.nickel.tallyscore.localcomposistions
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable

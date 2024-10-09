@@ -34,7 +34,7 @@ import com.nickel.tallyscore.R
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState
-import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.TallyScoreTheme
 import com.nickel.tallyscore.ui.theme.localcompositionprovider.LocalDimensions
 
 @Composable

@@ -11,7 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.nickel.tallyscore.ui.game.GameScreen
-import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.TallyScoreTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

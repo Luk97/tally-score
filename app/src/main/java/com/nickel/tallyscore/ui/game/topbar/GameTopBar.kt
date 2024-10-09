@@ -26,7 +26,7 @@ import com.nickel.tallyscore.R
 import com.nickel.tallyscore.ui.components.TallyScoreIconButton
 import com.nickel.tallyscore.ui.components.TallyScoreText
 import com.nickel.tallyscore.ui.dialogs.settings.SettingsDialog
-import com.nickel.tallyscore.ui.theme.TallyScoreTheme
+import com.nickel.tallyscore.TallyScoreTheme
 
 @Composable
 internal fun GameTopBar(viewModel: GameTopBarViewModel = viewModel()) {

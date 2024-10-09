@@ -1,6 +1,6 @@
-package com.nickel.tallyscore.ui.theme
+package com.nickel.tallyscore.core
 
-object Dimensions {
+object TallyScoreConfig {
     const val PLAYER_NAME_MAX_CHARS = 15
     const val PLAYER_SCORE_MAX_CHARS = 6
 }

@@ -1,4 +1,4 @@
-package com.nickel.typography
+package com.nickel.tallyscore.typography
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
