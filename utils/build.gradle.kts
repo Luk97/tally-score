@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nickel.design"
+    namespace = "com.nickel.tallyscore.utils"
     compileSdk = 34
 
     defaultConfig {
@@ -31,18 +31,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
 dependencies {
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.bundles.compose)
+    implementation(libs.androidx.appcompat)
 }

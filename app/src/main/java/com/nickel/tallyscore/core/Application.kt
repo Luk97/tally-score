@@ -1,6 +1,7 @@
 package com.nickel.tallyscore.core
 
 import android.app.Application
+import com.nickel.tallyscore.utils.ContextProvider
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

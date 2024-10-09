@@ -1,12 +1,11 @@
 package com.nickel.tallyscore.ui.game
 
 import com.nickel.tallyscore.player.Player
-import com.nickel.tallyscore.preferences.UserPreferences
 
 internal data class GameState(
     val players: List<Player> = emptyList(),
     val dialogState: DialogState = DialogState.None,
-    val preferences: UserPreferences = UserPreferences()
+    val preferences: com.nickel.tallyscore.persistence.preferences.UserPreferences = com.nickel.tallyscore.persistence.preferences.UserPreferences()
 ) {
 
     val turnCount: Int

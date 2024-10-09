@@ -2,8 +2,7 @@ package com.nickel.tallyscore.ui.dialogs.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nickel.tallyscore.preferences.UserPreferences
-import com.nickel.tallyscore.preferences.UserPreferencesRepository
+import com.nickel.tallyscore.persistence.preferences.PreferenceManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,11 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class SettingsViewModel @Inject constructor(
-    private val repository: UserPreferencesRepository
-): ViewModel() {
+internal class SettingsViewModel @Inject constructor(): ViewModel() {
 
-    val settingsState: StateFlow<SettingsState> = repository.userPreferences
+    val settingsState: StateFlow<SettingsState> = PreferenceManager.userPreferences
         .map { preferences ->
             SettingsState.Success(settings = preferences)
         }
@@ -30,12 +27,12 @@ internal class SettingsViewModel @Inject constructor(
 
     fun onZoomLevelChanged(zoomLevel: Float) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.updateZoomLevel(zoomLevel)
+            PreferenceManager.updateZoomLevel(zoomLevel)
         }
     }
 
     sealed class SettingsState {
         data object Loading: SettingsState()
-        data class Success(val settings: UserPreferences): SettingsState()
+        data class Success(val settings: com.nickel.tallyscore.persistence.preferences.UserPreferences): SettingsState()
     }
 }

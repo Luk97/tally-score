@@ -12,6 +12,7 @@ room-database = "2.6.1"
 gson = "2.10.1"
 accomponist = "0.26.0-alpha"
 datastore-preferences = "1.1.1"
+appcompat = "1.7.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -32,6 +33,7 @@ room-database-ktx = { module = "androidx.room:room-ktx", version.ref = "room-dat
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 accomponist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accomponist" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 [bundles]
 compose = [

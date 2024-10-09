@@ -1,4 +1,4 @@
-package com.nickel.tallyscore.core
+package com.nickel.tallyscore.utils
 
 import android.content.Context
 import java.lang.ref.WeakReference

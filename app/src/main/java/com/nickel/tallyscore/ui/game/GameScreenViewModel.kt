@@ -2,12 +2,12 @@ package com.nickel.tallyscore.ui.game
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nickel.tallyscore.utils.ContextProvider
 import com.nickel.tallyscore.R
-import com.nickel.tallyscore.core.ContextProvider
 import com.nickel.tallyscore.core.snackbar.SnackBarController
+import com.nickel.tallyscore.persistence.preferences.PreferenceManager
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.player.PlayerRepository
-import com.nickel.tallyscore.preferences.UserPreferencesRepository
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.utils.toIntList
 import com.nickel.tallyscore.utils.toSafeInt
@@ -22,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 internal class GameScreenViewModel @Inject constructor(
     private val playerRepository: PlayerRepository,
-    private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(GameState())
@@ -36,7 +35,7 @@ internal class GameScreenViewModel @Inject constructor(
                 }
             }
             launch {
-                preferencesRepository.userPreferences.collectLatest { preferences ->
+                PreferenceManager.userPreferences.collectLatest { preferences ->
                     _state.update { it.copy(preferences = preferences) }
                 }
             }
