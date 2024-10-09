@@ -18,5 +18,5 @@
 - [ ] Custom Shadow on board
 - [ ] Custom Button with gradient
 - [x] Theme as separate module
-- [ ] Preferences as separate module
-- [ ] PreferenceManager as Object
+- [x] Preferences as separate module
+- [x] PreferenceManager as Object
