@@ -2,7 +2,8 @@
 - Zoomable Game Board
 - Presets for different Games
 
-# TODO
+```[tasklist]
+### TODO
 - [x] Calculate cell width depending on screen size and outsource this to a local provider
 - [ ] Add animations adding or editing a score and player
 - [ ] Light colorscheme
@@ -18,3 +19,4 @@
 - [ ] Custom Shadow on board
 - [ ] Custom Button with gradient
 - [ ] Theme as separate module
+```
