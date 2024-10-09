@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GameScreenViewModel @Inject constructor(
+internal class GameScreenViewModel @Inject constructor(
     private val playerRepository: PlayerRepository,
     private val preferencesRepository: UserPreferencesRepository
 ) : ViewModel() {

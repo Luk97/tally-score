@@ -21,7 +21,7 @@ import com.nickel.tallyscore.ui.theme.Dimensions
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
-fun TextBoardCell(
+internal fun TextBoardCell(
     text: String,
     zoomLevel: Float,
     modifier: Modifier = Modifier
@@ -37,12 +37,12 @@ fun TextBoardCell(
 }
 
 @Composable
-fun EmptyBoardCell(zoomLevel: Float) {
+internal fun EmptyBoardCell(zoomLevel: Float) {
     BoardCellContainer(zoomLevel) {}
 }
 
 @Composable
-fun AddScoreBoardCell(
+internal fun AddScoreBoardCell(
     player: Player,
     zoomLevel: Float,
     modifier: Modifier = Modifier,
@@ -72,6 +72,7 @@ private fun BoardCellContainer(
                 width = Dimensions.CELL_WIDTH.dp * zoomLevel,
                 height = Dimensions.CELL_HEIGHT.dp * zoomLevel
             )
+            .padding(4.dp)
             .clip(RoundedCornerShape(8.dp))
             .then(modifier)
     ) {

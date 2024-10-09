@@ -1,5 +1,6 @@
 package com.nickel.tallyscore.ui.game
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -12,7 +13,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.core.snackbar.ObserveAsEvents
 import com.nickel.tallyscore.core.snackbar.SnackBarController
@@ -28,7 +31,7 @@ import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 import kotlinx.coroutines.launch
 
 @Composable
-fun GameScreen(viewModel: GameScreenViewModel = viewModel()) {
+internal fun GameScreen(viewModel: GameScreenViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
     GameScreen(state = state, onInteraction = viewModel::onInteraction)
 }
@@ -68,18 +71,24 @@ private fun GameScreen(
         containerColor = TallyScoreTheme.colorScheme.background,
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) }
     ) { innerPadding ->
-        GameBoard(
-            state = state,
-            onInteraction = onInteraction,
+        Box(
+            contentAlignment = TopCenter,
             modifier = Modifier
-                .fillMaxSize()
                 .padding(innerPadding)
-        )
-
-        GameDialogs(
-            dialogState = state.dialogState,
-            onInteraction = onInteraction
-        )
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            if (state.gameBoardVisible) {
+                GameBoard(
+                    state = state,
+                    onInteraction = onInteraction
+                )
+            }
+            GameDialogs(
+                dialogState = state.dialogState,
+                onInteraction = onInteraction
+            )
+        }
     }
 }
 

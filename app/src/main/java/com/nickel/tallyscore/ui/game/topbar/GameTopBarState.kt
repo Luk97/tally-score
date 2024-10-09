@@ -2,7 +2,7 @@ package com.nickel.tallyscore.ui.game.topbar
 
 import com.nickel.tallyscore.player.Player
 
-data class GameTopBarState(
+internal data class GameTopBarState(
     val players: List<Player> = emptyList(),
     val showMenu: Boolean = false,
     val showSettings: Boolean = false

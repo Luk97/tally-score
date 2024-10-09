@@ -3,7 +3,7 @@ package com.nickel.tallyscore.ui.game
 import com.nickel.tallyscore.player.Player
 import com.nickel.tallyscore.preferences.UserPreferences
 
-data class GameState(
+internal data class GameState(
     val players: List<Player> = emptyList(),
     val dialogState: DialogState = DialogState.None,
     val preferences: UserPreferences = UserPreferences()

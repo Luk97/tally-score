@@ -32,7 +32,7 @@ import com.nickel.tallyscore.utils.InputValidator
 import com.nickel.tallyscore.utils.handlePotentialMissingComma
 
 @Composable
-fun AddScoreDialog(
+internal fun AddScoreDialog(
     player: Player,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {

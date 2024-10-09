@@ -8,9 +8,11 @@ interface TallyScoreColorScheme {
     val background: Color
     val onBackground: Color
     val surface: Color
+    val surfaceVariant: Color
     val surfaceContainer: Color
     val onSurface: Color
     val onSurfaceVariant: Color
+    val border: Color
 }
 
 object LightColorScheme: TallyScoreColorScheme {
@@ -19,9 +21,11 @@ object LightColorScheme: TallyScoreColorScheme {
     override val background: Color = DarkGrey
     override val onBackground: Color = White
     override val surface: Color = MediumGrey
+    override val surfaceVariant: Color = MediumGrey.copy(alpha = 0.5f)
     override val surfaceContainer: Color = MediumGrey
     override val onSurface: Color = White
     override val onSurfaceVariant: Color = White.copy(alpha = 0.5f)
+    override val border: Color = Black
 }
 
 object DarkColorScheme: TallyScoreColorScheme {
@@ -30,7 +34,9 @@ object DarkColorScheme: TallyScoreColorScheme {
     override val background: Color = DarkGrey
     override val onBackground: Color = White
     override val surface: Color = MediumGrey
+    override val surfaceVariant: Color = MediumGrey.copy(alpha = 0.5f)
     override val surfaceContainer: Color = MediumGrey
     override val onSurface: Color = White
     override val onSurfaceVariant: Color = White.copy(alpha = 0.5f)
+    override val border: Color = Black
 }

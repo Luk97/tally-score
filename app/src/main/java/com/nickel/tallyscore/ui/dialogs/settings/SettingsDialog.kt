@@ -31,7 +31,7 @@ import com.nickel.tallyscore.ui.dialogs.settings.SettingsViewModel.SettingsState
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
-fun SettingsDialog(
+internal fun SettingsDialog(
     viewModel: SettingsViewModel = hiltViewModel(),
     onDismiss: () -> Unit = {}
 ) {

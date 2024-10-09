@@ -1,7 +1,9 @@
 package com.nickel.tallyscore.ui.game.board
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,15 +12,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,22 +38,36 @@ import com.nickel.tallyscore.ui.theme.Dimensions
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
-fun GameBoard(
+internal fun GameBoard(
     state: GameState,
-    modifier: Modifier = Modifier,
     onInteraction: (GameInteraction) -> Unit = {}
 ) {
-    Box(
-        contentAlignment = Alignment.TopStart,
-        modifier = modifier
+    Surface(
+        shape = RoundedCornerShape(8.dp),
+        color = Color.Transparent,
+        border = BorderStroke(1.dp, TallyScoreTheme.colorScheme.border),
+        modifier = Modifier.wrapContentSize()
     ) {
-        GameBoardContent(state, onInteraction)
-        GameBoardDivider(state)
+        Box(
+            modifier = Modifier
+                .background(
+                    shape = RoundedCornerShape(8.dp),
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            TallyScoreTheme.colorScheme.surface,
+                            TallyScoreTheme.colorScheme.surfaceVariant
+                        ),
+                    ),
+                )
+        ) {
+            GameBoardContent(state, onInteraction)
+            GameBoardDivider(state)
+        }
     }
 }
 
 @Composable
-fun GameBoardContent(
+private fun GameBoardContent(
     state: GameState,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {
@@ -55,12 +76,10 @@ fun GameBoardContent(
         verticalAlignment = Alignment.Top,
         horizontalArrangement = Arrangement.Start,
     ) {
-        if (state.gameBoardVisible) {
-            HeaderColumn(
-                state = state,
-                scrollState = scrollState
-            )
-        }
+        HeaderColumn(
+            state = state,
+            scrollState = scrollState
+        )
 
         LazyRow(
             horizontalArrangement = Arrangement.Start,
@@ -108,7 +127,7 @@ private fun ScrollableHeaderColumn(
         (1..state.turnCount).forEach {
             TextBoardCell(
                 text = "$it",
-                zoomLevel =  state.preferences.zoomLevel
+                zoomLevel = state.preferences.zoomLevel
             )
         }
 
@@ -220,17 +239,15 @@ private fun PlayerScores(
 }
 
 @Composable
-private fun GameBoardDivider(
-    state: GameState
-) {
+private fun GameBoardDivider(state: GameState) {
     VerticalDivider(
-        color = TallyScoreTheme.colorScheme.onBackground,
+        color = TallyScoreTheme.colorScheme.border,
         modifier = Modifier
             .offset(x = Dimensions.CELL_WIDTH.dp * state.preferences.zoomLevel)
             .height(state.verticalItemCount * Dimensions.CELL_HEIGHT.dp * state.preferences.zoomLevel)
     )
     HorizontalDivider(
-        color = TallyScoreTheme.colorScheme.onBackground,
+        color = TallyScoreTheme.colorScheme.border,
         modifier = Modifier
             .offset(y = Dimensions.CELL_HEIGHT.dp * state.preferences.zoomLevel)
             .width(state.horizontalItemCount * Dimensions.CELL_WIDTH.dp * state.preferences.zoomLevel)

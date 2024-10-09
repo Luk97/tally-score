@@ -29,7 +29,7 @@ import com.nickel.tallyscore.ui.dialogs.settings.SettingsDialog
 import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 
 @Composable
-fun GameTopBar(viewModel: GameTopBarViewModel = viewModel()) {
+internal fun GameTopBar(viewModel: GameTopBarViewModel = viewModel()) {
     val state by viewModel.state.collectAsState()
 
     TopBarContent(
@@ -126,7 +126,6 @@ private fun MenuDropDown(
         )
     }
 }
-
 
 @Preview
 @Composable

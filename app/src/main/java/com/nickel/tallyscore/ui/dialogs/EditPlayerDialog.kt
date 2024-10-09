@@ -36,7 +36,7 @@ import com.nickel.tallyscore.ui.theme.TallyScoreTheme
 import com.nickel.tallyscore.utils.InputValidator
 
 @Composable
-fun EditPlayerDialog(
+internal fun EditPlayerDialog(
     player: Player,
     onInteraction: (GameInteraction) -> Unit = {},
 ) {

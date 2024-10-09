@@ -2,7 +2,7 @@ package com.nickel.tallyscore.ui.game
 
 import com.nickel.tallyscore.player.Player
 
-sealed class GameInteraction {
+internal sealed class GameInteraction {
     data object AddPlayerClicked: GameInteraction()
     data class AddPlayerConfirmed(val name: String, val score: String): GameInteraction()
 

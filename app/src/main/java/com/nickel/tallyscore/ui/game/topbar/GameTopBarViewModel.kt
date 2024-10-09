@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GameTopBarViewModel @Inject constructor(
+internal class GameTopBarViewModel @Inject constructor(
     private val repository: PlayerRepository
 ): ViewModel() {
     private val _state = MutableStateFlow(GameTopBarState())
