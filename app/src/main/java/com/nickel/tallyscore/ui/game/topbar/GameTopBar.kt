@@ -23,10 +23,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.nickel.tallyscore.R
-import com.nickel.tallyscore.ui.components.TallyScoreIconButton
-import com.nickel.tallyscore.ui.components.TallyScoreText
+import com.nickel.tallyscore.design.components.TallyScoreIconButton
+import com.nickel.tallyscore.design.components.TallyScoreText
 import com.nickel.tallyscore.ui.dialogs.settings.SettingsDialog
-import com.nickel.tallyscore.TallyScoreTheme
+import com.nickel.tallyscore.design.TallyScoreTheme
 
 @Composable
 internal fun GameTopBar(viewModel: GameTopBarViewModel = viewModel()) {

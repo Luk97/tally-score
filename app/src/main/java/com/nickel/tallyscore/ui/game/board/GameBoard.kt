@@ -31,10 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.nickel.tallyscore.R
-import com.nickel.tallyscore.player.Player
+import com.nickel.tallyscore.persistence.player.Player
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.ui.game.GameState
-import com.nickel.tallyscore.TallyScoreTheme
+import com.nickel.tallyscore.design.TallyScoreTheme
 import com.nickel.tallyscore.ui.theme.localcompositionprovider.LocalDimensions
 
 @Composable

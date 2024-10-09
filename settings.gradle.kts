@@ -21,6 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "TallyScore"
 include(":app")
-include(":design")
-include(":persistence")
-include(":utils")
+include(":core-design")
+include(":core-persistence")
+include(":core-utils")

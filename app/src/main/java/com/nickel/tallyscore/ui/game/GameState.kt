@@ -1,6 +1,6 @@
 package com.nickel.tallyscore.ui.game
 
-import com.nickel.tallyscore.player.Player
+import com.nickel.tallyscore.persistence.player.Player
 
 internal data class GameState(
     val players: List<Player> = emptyList(),

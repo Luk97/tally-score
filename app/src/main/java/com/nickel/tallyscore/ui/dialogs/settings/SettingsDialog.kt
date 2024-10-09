@@ -25,8 +25,9 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nickel.tallyscore.R
-import com.nickel.tallyscore.TallyScoreTheme
-import com.nickel.tallyscore.ui.components.TallyScoreText
+import com.nickel.tallyscore.design.TallyScoreTheme
+import com.nickel.tallyscore.design.components.TallyScoreText
+import com.nickel.tallyscore.persistence.preferences.UserPreferences
 import com.nickel.tallyscore.ui.dialogs.settings.SettingsViewModel.SettingsState
 
 @Composable
@@ -96,7 +97,7 @@ private fun SettingsDialog(
 
 @Composable
 private fun SettingsPanel(
-    settings: com.nickel.tallyscore.persistence.preferences.UserPreferences,
+    settings: UserPreferences,
     onZoomLevelChanged: (Float) -> Unit
 ) {
     DialogSectionTitle(stringResource(R.string.board_size))
@@ -145,7 +146,7 @@ private fun PreviewSettingsDialogSuccess() {
     TallyScoreTheme {
         SettingsDialog(
             state = SettingsState.Success(
-                settings = com.nickel.tallyscore.persistence.preferences.UserPreferences()
+                settings = UserPreferences()
             )
         )
     }

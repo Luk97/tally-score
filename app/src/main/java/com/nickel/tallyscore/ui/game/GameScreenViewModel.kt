@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.utils.ContextProvider
 import com.nickel.tallyscore.R
-import com.nickel.tallyscore.core.snackbar.SnackBarController
+import com.nickel.tallyscore.snackbar.SnackBarController
 import com.nickel.tallyscore.persistence.preferences.PreferenceManager
-import com.nickel.tallyscore.player.Player
-import com.nickel.tallyscore.player.PlayerRepository
+import com.nickel.tallyscore.persistence.player.Player
+import com.nickel.tallyscore.persistence.player.PlayerRepository
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.utils.toIntList
 import com.nickel.tallyscore.utils.toSafeInt

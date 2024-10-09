@@ -1,25 +1,18 @@
 plugins {
-    alias(libs.plugins.android.application)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.daggerhilt)
     alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.nickel.tallyscore"
+    namespace = "com.nickel.tallyscore.design"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.nickel.tallyscore"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -44,31 +37,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
 }
 
 dependencies {
-
-    implementation(project(":core-design"))
-    // modules
-    implementation(project(":core-persistence"))
-    implementation(project(":core-utils"))
-
-    // core
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
-
-    // compose
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
-    implementation(libs.accomponist.systemuicontroller)
-
-    // dagger hilt
-    implementation(libs.bundles.daggerhilt)
-    ksp(libs.dagger.hilt.compiler)
 }

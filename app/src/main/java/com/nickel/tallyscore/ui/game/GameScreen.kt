@@ -17,9 +17,9 @@ import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.nickel.tallyscore.core.snackbar.ObserveAsEvents
-import com.nickel.tallyscore.core.snackbar.SnackBarController
-import com.nickel.tallyscore.ui.components.AddPlayerButton
+import com.nickel.tallyscore.snackbar.ObserveAsEvents
+import com.nickel.tallyscore.snackbar.SnackBarController
+import com.nickel.tallyscore.design.components.AddPlayerButton
 import com.nickel.tallyscore.ui.dialogs.AddPlayerDialog
 import com.nickel.tallyscore.ui.dialogs.AddScoreDialog
 import com.nickel.tallyscore.ui.dialogs.EditPlayerDialog
@@ -27,7 +27,7 @@ import com.nickel.tallyscore.ui.dialogs.EditScoreDialog
 import com.nickel.tallyscore.ui.game.GameState.DialogState
 import com.nickel.tallyscore.ui.game.board.GameBoard
 import com.nickel.tallyscore.ui.game.topbar.GameTopBar
-import com.nickel.tallyscore.TallyScoreTheme
+import com.nickel.tallyscore.design.TallyScoreTheme
 import kotlinx.coroutines.launch
 
 @Composable

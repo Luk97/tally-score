@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nickel.tallyscore.R
 import com.nickel.tallyscore.utils.ContextProvider
-import com.nickel.tallyscore.core.snackbar.SnackBarController
-import com.nickel.tallyscore.player.PlayerRepository
+import com.nickel.tallyscore.snackbar.SnackBarController
+import com.nickel.tallyscore.persistence.player.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

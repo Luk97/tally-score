@@ -22,10 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.nickel.tallyscore.R
-import com.nickel.tallyscore.TallyScoreTheme
+import com.nickel.tallyscore.design.TallyScoreTheme
 import com.nickel.tallyscore.core.TallyScoreConfig
-import com.nickel.tallyscore.ui.components.TallyScoreText
-import com.nickel.tallyscore.ui.components.TallyScoreTextField
+import com.nickel.tallyscore.design.components.TallyScoreText
+import com.nickel.tallyscore.design.components.TallyScoreTextField
 import com.nickel.tallyscore.ui.game.GameInteraction
 import com.nickel.tallyscore.utils.InputValidator
 import com.nickel.tallyscore.utils.handlePotentialMissingComma

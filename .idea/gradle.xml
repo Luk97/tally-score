@@ -10,9 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/design" />
-            <option value="$PROJECT_DIR$/persistence" />
-            <option value="$PROJECT_DIR$/utils" />
+            <option value="$PROJECT_DIR$/core-design" />
+            <option value="$PROJECT_DIR$/core-persistence" />
+            <option value="$PROJECT_DIR$/core-utils" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

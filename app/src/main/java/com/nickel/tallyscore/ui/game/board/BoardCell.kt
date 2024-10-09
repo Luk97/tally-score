@@ -13,11 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.nickel.tallyscore.player.Player
-import com.nickel.tallyscore.ui.components.TallyScoreIconButton
-import com.nickel.tallyscore.ui.components.TallyScoreText
+import com.nickel.tallyscore.persistence.player.Player
+import com.nickel.tallyscore.design.components.TallyScoreIconButton
+import com.nickel.tallyscore.design.components.TallyScoreText
 import com.nickel.tallyscore.ui.game.GameInteraction
-import com.nickel.tallyscore.TallyScoreTheme
+import com.nickel.tallyscore.design.TallyScoreTheme
 import com.nickel.tallyscore.ui.theme.localcompositionprovider.LocalDimensions
 
 @Composable
