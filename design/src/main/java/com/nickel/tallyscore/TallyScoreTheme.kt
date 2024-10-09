@@ -9,6 +9,7 @@ import com.nickel.tallyscore.localcomposistions.LocalAppTheme
 import com.nickel.tallyscore.localcomposistions.LocalColorScheme
 import com.nickel.tallyscore.localcomposistions.LocalTypography
 import com.nickel.tallyscore.localcomposistions.getAppTheme
+import com.nickel.tallyscore.localcomposistions.getColorScheme
 import com.nickel.tallyscore.ui.theme.localcompositionprovider.LocalDimensions
 import com.nickel.tallyscore.ui.theme.localcompositionprovider.getDimensions
 
@@ -17,6 +18,7 @@ fun TallyScoreTheme(content: @Composable () -> Unit) {
     CompositionLocalProvider(
         LocalAppTheme provides getAppTheme(),
         LocalDimensions provides getDimensions(),
+        LocalColorScheme provides getColorScheme(),
         content = content
     )
 }
