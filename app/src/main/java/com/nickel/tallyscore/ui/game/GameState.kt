@@ -1,13 +1,13 @@
 package com.nickel.tallyscore.ui.game
 
 import com.nickel.tallyscore.persistence.player.Player
+import com.nickel.tallyscore.persistence.preferences.UserPreferences
 
 internal data class GameState(
     val players: List<Player> = emptyList(),
     val dialogState: DialogState = DialogState.None,
-    val preferences: com.nickel.tallyscore.persistence.preferences.UserPreferences = com.nickel.tallyscore.persistence.preferences.UserPreferences()
+    val preferences: UserPreferences = UserPreferences()
 ) {
-
     val turnCount: Int
         get() = players.maxOfOrNull{ it.turns } ?: 0
 

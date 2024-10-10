@@ -2,7 +2,9 @@ package com.nickel.tallyscore.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nickel.tallyscore.persistence.preferences.AppTheme
 import com.nickel.tallyscore.persistence.preferences.PreferenceManager
+import com.nickel.tallyscore.persistence.preferences.UserPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
@@ -31,8 +33,14 @@ internal class SettingsViewModel @Inject constructor(): ViewModel() {
         }
     }
 
+    fun onAppThemeChanged(appTheme: AppTheme) {
+        viewModelScope.launch(Dispatchers.IO) {
+            PreferenceManager.updateAppTheme(appTheme)
+        }
+    }
+
     sealed class SettingsState {
         data object Loading: SettingsState()
-        data class Success(val settings: com.nickel.tallyscore.persistence.preferences.UserPreferences): SettingsState()
+        data class Success(val settings: UserPreferences): SettingsState()
     }
 }

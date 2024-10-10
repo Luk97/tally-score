@@ -7,7 +7,7 @@
 - [ ] Add animations adding or editing a score and player
 - [ ] Light colorscheme
 - [ ] Make slider prettier
-- [ ] viewmodel for dialogs
+- [ ] Cleanup dialogs and make a reusable template
 - [ ] App icon
 - [ ] mark currently winning player
 - [ ] support for lowest or highest points winning

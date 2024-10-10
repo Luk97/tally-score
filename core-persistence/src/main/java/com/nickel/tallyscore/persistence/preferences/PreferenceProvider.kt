@@ -1,6 +1,5 @@
 package com.nickel.tallyscore.persistence.preferences
 
-import com.nickel.tallyscore.design.localcomposistions.AppTheme
 import kotlinx.coroutines.flow.Flow
 
 internal interface PreferenceProvider {

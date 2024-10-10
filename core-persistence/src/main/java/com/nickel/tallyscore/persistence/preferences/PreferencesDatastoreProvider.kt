@@ -11,7 +11,6 @@ import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.nickel.tallyscore.utils.ContextProvider
-import com.nickel.tallyscore.design.localcomposistions.AppTheme
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 
